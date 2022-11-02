@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="" />
+    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore">
+      <change afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login-process.php" beforeDir="false" afterPath="$PROJECT_DIR$/login-process.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/partials/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/partials/sidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.view.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +49,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/vicent/projectes/2023-truiter&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/xampp/htdocs/2023-truiter&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -81,6 +89,9 @@
       <workItem from="1667029970263" duration="573000" />
       <workItem from="1667122592237" duration="1792000" />
       <workItem from="1667204703790" duration="1282000" />
+      <workItem from="1667397861625" duration="2043000" />
+      <workItem from="1667410978309" duration="852000" />
+      <workItem from="1667428055452" duration="2550000" />
     </task>
     <task id="LOCAL-00001" summary="Creació de .gitignore">
       <created>1650613893842</created>
@@ -94,6 +105,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Creació de .gitignore" />

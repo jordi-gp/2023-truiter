@@ -9,6 +9,17 @@ use App\Video;
 
 require_once 'autoload.php';
 
+$info = [
+    "username" => "",
+    "password" => ""
+];
+if(isset($_SESSION["info"])) {
+    $info = $_SESSION["info"];
+}
+
+if(isset($_SESSION["logged"])) {
+}
+
 $twitter = new Twitter();
 
 $user = new User('Bart Simpson', 'bart');
