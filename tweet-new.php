@@ -1,7 +1,13 @@
 <?php
-    if(!isset($_SESSION)) {
-        session_start();
-    }
+    require_once 'autoload.php';
+
+    use App\Photo;
+use App\Tweet;
+use App\Twitter;
+use App\User;
+use App\Video;
+
+    session_start();
 
     $info = [];
 
@@ -10,8 +16,9 @@
         exit();
     }
 
+    $user2 = $_SESSION["user"];
+
     if(isset($_SESSION["info"])) {
         $info = $_SESSION["info"];
     }
-
     require 'views/tweet-new.view.php';

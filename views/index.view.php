@@ -19,6 +19,10 @@
             <?php if(!empty($info)): ?>
                 <p>Benvingut @<?=$user2->getUsername();?></p>
             <?php endif; ?>
+            <?php if(!empty($_SESSION["message"])): ?>
+                <p><?=$_SESSION["message"];?></p>
+                <?php unset($_SESSION["message"]); ?>
+            <?php endif; ?>
             <p><?= $twitter->getNumberOfUsers() ?> users, <?= $twitter->getNumberOfTweets() ?> tweets.</p>
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
@@ -27,7 +31,6 @@
             <?php endforeach; ?>
             <h2>Tweets</h2>
             <?php foreach ($tweets as $tweet) : ?>
-
                 <?php $tweetUser = $tweet->getAuthor() ?>
                 <p><?= $tweetUser->getName() ?> (@<?= $tweetUser->getUsername() ?>) - Creation
                     date: <?= $tweet->getCreatedAt()->format('d-m-Y h:i:s') ?></p>
