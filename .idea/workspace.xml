@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore">
-      <change afterPath="$PROJECT_DIR$/logout.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login-process.php" beforeDir="false" afterPath="$PROJECT_DIR$/login-process.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/partials/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/partials/sidebar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/login.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.view.php" afterDir="false" />
-    </list>
+    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,7 +83,7 @@
       <workItem from="1667204703790" duration="1282000" />
       <workItem from="1667397861625" duration="2043000" />
       <workItem from="1667410978309" duration="852000" />
-      <workItem from="1667428055452" duration="2550000" />
+      <workItem from="1667428055452" duration="2765000" />
     </task>
     <task id="LOCAL-00001" summary="Creació de .gitignore">
       <created>1650613893842</created>
