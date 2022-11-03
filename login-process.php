@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
-    if(!isset($_SESION)) {
-        session_start();
-    }
+
+    use App\User;
+    require_once 'autoload.php';
+
+    session_start();
 
     $isLogged = false;
     $errors = [];
@@ -44,10 +46,12 @@
             header("Location: login.php");
             exit();
         } else {
-            header("Location: index.php");
+            $user = new User($info["username"], $info["username"]);
+            $_SESSION["user"] = $user;
             $_SESSION["logged"] = true;
-            unset($_SESSION["errors"]);
             $_SESSION["info"] = $info;
+            unset($_SESSION["errors"]);
+            header("Location: index.php");
             exit();
         }
     } else {

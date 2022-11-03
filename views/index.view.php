@@ -16,16 +16,16 @@
         </div>
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
-
+            <?php if(!empty($info)): ?>
+                <p>Benvingut @<?=$user2->getUsername();?></p>
+            <?php endif; ?>
             <p><?= $twitter->getNumberOfUsers() ?> users, <?= $twitter->getNumberOfTweets() ?> tweets.</p>
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
                 <p><?= $user->getName() ?> (@<?= $user->getUsername() ?>) - Creation
                     date: <?= $user->getCreatedAt()->format('d-m-Y h:i:s') ?></p>
             <?php endforeach; ?>
-
             <h2>Tweets</h2>
-
             <?php foreach ($tweets as $tweet) : ?>
 
                 <?php $tweetUser = $tweet->getAuthor() ?>

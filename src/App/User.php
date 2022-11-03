@@ -2,6 +2,8 @@
 
 namespace App;
 use DateTime;
+use Serializable;
+
 
 class User
 {
@@ -80,5 +82,32 @@ class User
     {
         $this->verified = $verified;
     }
+/*
+    public function serialize()
+    {
+        return json_encode([$this->username, $this->name, $this->createdAt->format("Y-m-d")]);
+    }
 
+    public function unserialize(string $data)
+    {
+        // TODO: Implement unserialize() method.
+        $array = json_decode($data);
+
+        $this->username = $data[0];
+        $this->name = $data[1];
+        $this->createdAt = DateTime::createFromFormat("Y-m-d", $data[2]);
+
+    }
+
+    public function __serialize(): array
+    {
+        return [$this->username, $this->name, $this->createdAt->format("Y-m-d")];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->username = $data[0];
+        $this->name = $data[1];
+        $this->createdAt = DateTime::createFromFormat("Y-m-d", $data[2]);
+    }*/
 }
