@@ -4,7 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore" />
+=======
+<<<<<<< HEAD
+    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore" />
+=======
+    <list default="true" id="5a1c4a3e-7420-4deb-8916-8b52d33812f2" name="Changes" comment="Creació de .gitignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login-process.php" beforeDir="false" afterPath="$PROJECT_DIR$/login-process.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/partials/sidebar.php" beforeDir="false" afterPath="$PROJECT_DIR$/partials/sidebar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/App/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweet-new-process.php" beforeDir="false" afterPath="$PROJECT_DIR$/tweet-new-process.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tweet-new.php" beforeDir="false" afterPath="$PROJECT_DIR$/tweet-new.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.view.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/tweet-new.view.php" beforeDir="false" afterPath="$PROJECT_DIR$/views/tweet-new.view.php" afterDir="false" />
+    </list>
+>>>>>>> 7a20556865d1eca60e5437183fc06d6853cf8f7c
+>>>>>>> b2aa0f6f1d658b653ddef8aed9b788fd11a45e7a
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,8 +102,16 @@
       <workItem from="1667204703790" duration="1282000" />
       <workItem from="1667397861625" duration="2043000" />
       <workItem from="1667410978309" duration="852000" />
+<<<<<<< HEAD
+      <workItem from="1667428055452" duration="2765000" />
+=======
       <workItem from="1667428055452" duration="2550000" />
+<<<<<<< HEAD
       <workItem from="1667459022901" duration="6439000" />
+=======
+      <workItem from="1667459022901" duration="6285000" />
+>>>>>>> 7a20556865d1eca60e5437183fc06d6853cf8f7c
+>>>>>>> b2aa0f6f1d658b653ddef8aed9b788fd11a45e7a
     </task>
     <task id="LOCAL-00001" summary="Creació de .gitignore">
       <created>1650613893842</created>
