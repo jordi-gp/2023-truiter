@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"></head></head>
     <style>
         .error {
+            font-weight: bold;
             color: red;
         }
     </style>
@@ -24,6 +25,14 @@
                 <input type="file" name="tuitFile" class="form-control mb-2" >
                 <button class="btn btn-primary" type="submit">Tuit with image</button>
             </form>
+            <!--Mostrar el tweet-->
+            <?php if(!empty($tweet)): ?>
+                <p><?= $tweetAuthor->getName()?> (@<?=$tweetAuthor->getUsername()?>) - Creation
+                    date: <?=$tweet->getCreatedAt()->format('d-m-Y h:i:s')?></p>
+                <blockquote><?= $tweet->getText() ?></blockquote>
+                <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
+                <!--TODO: Gestionar la putjada del fitxer-->
+            <?php endif; ?>
             <!--Mostrat d'errors-->
             <?php if(!empty($errors)): ?>
                 <?php foreach($errors as $error): ?>

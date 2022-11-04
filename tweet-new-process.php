@@ -1,21 +1,21 @@
-<?php
-// ací va la lògica per a processar el formulari de creació de tuits
-    if(!isset($_SESSION)){
-        session_start();
-    }
+<?php declare(strict_types=1);
+    use App\Photo;
+use App\Tweet;
+use App\Twitter;
+use App\User;
+use App\Video;
+    require_once 'autoload.php';
+    session_start();
 
     $isPost = false;
     $errors = [];
+    $author = [];
     $tweet = [
         "tuitValue" => "",
         "tuitFile" => []
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        $isPost = true;
-    }
-
-    if($isPost) {
         //Validació del formulari
         if(!empty($_POST["tuitValue"])) {
             if(strlen($_POST["tuitValue"]) > 250) {
@@ -30,11 +30,15 @@
         if(!empty($errors)) {
             $_SESSION["errors"] = $errors;
             $_SESSION["infoTweet"] = $tweet;
-            header("tweet-new.php");
-            exit();
+            unset($_SESSION["newTweet"]);
         } else {
-
+            $author = $_SESSION["user"];
+            $newTweet = new Tweet($tweet["tuitValue"], $author);
+            $_SESSION["newTweet"] = $newTweet;
+            unset($_SESSION["errors"]);
         }
+        header("Location: tweet-new.php");
+        exit();
     } else {
         header("Location: tweet-new.php");
     }

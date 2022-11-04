@@ -12,13 +12,7 @@
         "password" => ""
     ];
 
-    $isPost = false;
-
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        $isPost = true;
-    }
-
-    if($isPost) {
         //Validació del formulari
         if(!empty($_POST["username"])) {
             if(strlen($_POST["username"]) > 100) {
@@ -44,7 +38,6 @@
             $_SESSION["errors"] = $errors;
             $_SESSION["info"] = $info;
             header("Location: login.php");
-            exit();
         } else {
             $user = new User($info["username"], $info["username"]);
             $_SESSION["user"] = $user;
@@ -52,8 +45,8 @@
             $_SESSION["info"] = $info;
             unset($_SESSION["errors"]);
             header("Location: index.php");
-            exit();
         }
+        exit();
     } else {
         header("Location: login.php");
         exit();

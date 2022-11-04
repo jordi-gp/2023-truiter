@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
     require_once 'autoload.php';
-
     use App\Photo;
     use App\Tweet;
     use App\Twitter;
     use App\User;
     use App\Video;
-
     session_start();
 
     $errors = [];
