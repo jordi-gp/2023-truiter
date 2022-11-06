@@ -10,6 +10,11 @@
             font-weight: bold;
             color: red;
         }
+
+        #imatge {
+            width: 300px;
+            height: 300px;
+        }
     </style>
 <body>
 
@@ -25,13 +30,17 @@
                 <input type="file" name="tuitFile" class="form-control mb-2" >
                 <button class="btn btn-primary" type="submit">Tuit with image</button>
             </form>
-            <!--Mostrar el tweet-->
             <?php if(!empty($tweet)): ?>
+                <!--Mostrar el tweet-->
+                <h3>Tweet</h3>
                 <p><?= $tweetAuthor->getName()?> (@<?=$tweetAuthor->getUsername()?>) - Creation
                     date: <?=$tweet->getCreatedAt()->format('d-m-Y h:i:s')?></p>
                 <blockquote><?= $tweet->getText() ?></blockquote>
                 <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
                 <!--TODO: Gestionar la putjada del fitxer-->
+                <?php if(!empty($_SESSION["imgName"])): ?>
+                    <img id="imatge" src="uploads/<?=$_SESSION["imgName"]?>" alt="imatge_personal" />
+                <?php endif; ?>
             <?php endif; ?>
             <!--Mostrat d'errors-->
             <?php if(!empty($errors)): ?>
