@@ -12,8 +12,4 @@
         $info = $_SESSION["info"];
     }
 
-    if(isset($_SESSION["logged"])) {
-        $user2 = $_SESSION["user"];
-    }
-
     require 'views/login.view.php';

@@ -12,10 +12,10 @@
 </nav>
 <nav>
     <ul class="nav flex-column">
-        <?php if (!empty($_SESSION["logged"])) : ?>
+        <?php if(!empty($_SESSION["info"])): ?>
             <li class="nav-item"><a class="nav-link" href="logout.php"><i class="bi bi-person-fill"></i>
-                    <?=$user2->getUsername();?></a></li>
-        <?php else : ?>
+                    <?= $_SESSION["info"]["username"];?></a></li>
+        <?php else: ?>
             <li class="nav-item"><a class="nav-link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Iniciar
                     sessió</a></li>
         <?php endif; ?>

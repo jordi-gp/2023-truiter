@@ -6,63 +6,53 @@
     use App\User;
     use App\Video;
     session_start();
-
-    //Connexió a la base de dades
-    require_once('dbConnection.php');
-/*
     $info = [];
     $msg = "";
 
-    if(isset($_SESSION["logged"])) {
-        $info = $_SESSION["info"] ?? [];
-        $user2 = $_SESSION["user"];
-        unset($_SESSION["info"]);
+    $twitter = new Twitter();
+    //Connexió a la base de dades
+    require_once('dbConnection.php');
+
+    //Obtenció dels usuaris de la bbdd
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM user");
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //Inserció d'usuaris
+        foreach($users as $user) {
+            $user = new User($user["name"], $user["username"]);
+            $twitter->addUser($user);
+        }
+    } catch (PDOException $err) {
+        echo $err->getMessage();
     }
 
-    $twitter = new Twitter();
+    //Obtenció de tweets de la bbdd
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM tweet ORDER BY created_at DESC");
+        $stmt->execute();
+        $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $err) {
+        $err->getMessage();
+    }
 
-    $user = new User('Bart Simpson', 'bart');
+    $logedUsers = $twitter->getUsers(); //Usuaris afegits desde la base de dades
+    /*$tweet1 = new Tweet($tweets[0]["text"], $logedUsers[0]);
+    $twitter->addTweet($tweet1);
 
-    $twitter->addUser($user);
+    $tweet2 = new Tweet($tweets[1]["text"], $logedUsers[0]);
+    $twitter->addTweet($tweet2);
 
-    //Fem un delay de 4 segons perquè les dates de creació no coincidisquen
-    //sleep(4);
-    $userH = new User('Homer Simpson', 'homerj');
+    $tweet3 = new Tweet($tweets[2]["text"], $logedUsers[1]);
+    $twitter->addTweet($tweet3);*/
 
-    $twitter->addUser($userH);
+    for($i=0; $i<count($tweets); $i++) {
+        $numUser = rand(0, 1);
+        $tweet = new Tweet($tweets[$i]["text"], $logedUsers[$numUser]);
+        $twitter->addTweet($tweet);
+    }
 
     $users = $twitter->getUsers();
-
-
-    $tweet = new Tweet('Hola món!', $user);
-    $video = new Video('Vídeo 1', 1080, 1024, 25);
-    $photo = new Photo('Foto 1', 1080, 1024, 'Text alternatiu');
-    $tweet->addAttachment($video);
-    $tweet->addAttachment($photo);
-
-
-    try {
-        $photo = new Photo('Foto 1', 250, 1024, 'Text alternatiu');
-        $tweet->addAttachment($photo);
-    }
-    catch (\App\Exceptions\InvalidWidthMediaException $exception) {
-        echo $exception->getMessage();
-    }
-    catch (Exception $exception) {
-        echo "Unexpected error " .  $exception->getMessage();
-    }
-
-    $twitter->addTweet($tweet);
-    $twitter->LikeTweet($user, $tweet);
-    $twitter->LikeTweet($userH, $tweet);
-
-    $tweet = new Tweet("Kids, just because I don’t care doesn’t mean I’m not listening.", $userH);
-    $twitter->addTweet($tweet);
-
-    $tweet = new Tweet("I’ve learned that life is one crushing defeat after another until you just wish Flanders was dead.", $userH);
-    $twitter->addTweet($tweet);
-
-    $tweets = $twitter->getTweets();
-
+    $AllTweets = $twitter->getTweets();
     require 'views/index.view.php';
-*/

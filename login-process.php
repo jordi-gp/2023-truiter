@@ -46,6 +46,8 @@
                 } else {
                     $user = new User($user["name"], $user["username"]);
                     $_SESSION["logged"] = true;
+                    $_SESSION["info"] = $info;
+                    $_SESSION["user"] = $user;
                     unset($_SESSION["errors"]);
                     header("Location: index.php");
                     exit();

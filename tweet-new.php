@@ -16,12 +16,10 @@
         if(isset($_SESSION["errors"])) {
             $errors = $_SESSION["errors"];
         }
-
         //Informació de l'usuari que ens interesa guardar
         if(isset($_SESSION["info"])) {
             $info = $_SESSION["info"];
         }
-        $user2 = $_SESSION["user"];
 
         if(!empty($_SESSION["newTweet"])) {
             $tweet = $_SESSION["newTweet"];

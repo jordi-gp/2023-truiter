@@ -5,6 +5,7 @@ use App\Twitter;
 use App\User;
 use App\Video;
     require_once 'autoload.php';
+    require_once 'dbConnection.php';
     session_start();
 
     $isPost = false;
@@ -63,12 +64,17 @@ use App\Video;
             //Tuit
             $author = $_SESSION["user"];
             $newTweet = new Tweet($tweet["tuitValue"], $author);
-            $_SESSION["newTweet"] = $newTweet;
+            $created_at = Date("Y-m-d");
+            $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count) VALUES(:text, :created_at, :like_count)");
+            $stmt->bindValue(':text', $tweet["tuitValue"]);
+            $stmt->bindValue(':created_at', $created_at);
+            $stmt->bindValue('like_count', 0);
+            $stmt->execute();
             //Imatge del tuit
-            $_SESSION["imgName"] = $randName.".".$imgFormat;
+            //$_SESSION["imgName"] = $randName.".".$imgFormat;
             unset($_SESSION["errors"]);
         }
-        header("Location: tweet-new.php");
+        header("Location: index.php");
         exit();
     } else {
         header("Location: tweet-new.php");

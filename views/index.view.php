@@ -7,6 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <style>
+        #imatge {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
     <title>Truiter: una grollera còpia de Twitter</title>
 </head>
 <body>
@@ -27,21 +33,21 @@
             <p><?= $twitter->getNumberOfUsers() ?> users, <?= $twitter->getNumberOfTweets() ?> tweets.</p>
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
-                <p><?= $user->getName() ?> (@<?= $user->getUsername() ?>) - Creation
-                    date: <?= $user->getCreatedAt()->format('d-m-Y h:i:s') ?></p>
+                <p><?= $user->getName(); ?> (@<?= $user->getUsername() ?>); - Creation
+                    date: <?= $user->getCreatedAt()->format('d-m-Y h:i:s'); ?></p>
             <?php endforeach; ?>
             <h2>Tweets</h2>
-            <?php foreach ($tweets as $tweet) : ?>
-                <?php $tweetUser = $tweet->getAuthor() ?>
-                <p><?= $tweetUser->getName() ?> (@<?= $tweetUser->getUsername() ?>) - Creation
-                    date: <?= $tweet->getCreatedAt()->format('d-m-Y h:i:s') ?></p>
-                <blockquote><?= $tweet->getText() ?></blockquote>
+            <?php foreach ($AllTweets as $tweet) : ?>
+                <?php $tweetUser = $tweet->getAuthor(); ?>
+                <p><?= $tweetUser->getName(); ?> (@<?= $tweetUser->getUsername(); ?>) - Creation
+                    date: <?= $tweetUser->getCreatedAt()->format("d-m-Y h:i:s"); ?></p>
+                <blockquote><?=$tweet->getText();?></blockquote>
                 <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
                 <?php if (count($tweet->getAttachments()) > 0) : ?>
                     <h3>Attachments</h3>
                     <ul>
                         <?php foreach ($tweet->getAttachments() as $attachment) : ?>
-                            <li><?= $attachment->getSummary() ?></li>
+                            <li><?php $attachment->getSummary() ?></li>
                         <?php endforeach; ?>
                     </ul>
                 <?php endif ;?>

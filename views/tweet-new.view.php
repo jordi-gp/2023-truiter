@@ -10,11 +10,6 @@
             font-weight: bold;
             color: red;
         }
-
-        #imatge {
-            width: 300px;
-            height: 300px;
-        }
     </style>
 <body>
 
@@ -23,31 +18,14 @@
         <div class="col-2 border d-flex flex-column justify-content-between">
                 <?php require "partials/sidebar.php" ?>
         </div>
+        <!--Ara el tuit no es mostra en aquesta pàgina, es mostra en l'index-->
         <div class="col-7 border p-4">
             <h2>Nou truit</h2>
             <form class="mb-4" method="post" action="tweet-new-process.php" enctype="multipart/form-data">
-                <textarea class="form-control mb-2" name="tuitValue" placeholder="Què passa, @<?=$user2->getUsername();?>?"></textarea>
+                <textarea class="form-control mb-2" name="tuitValue" placeholder="Què passa, @<?=$info["username"];?>?"></textarea>
                 <input type="file" name="tuitFile" class="form-control mb-2" >
                 <button class="btn btn-primary" type="submit">Tuit with image</button>
             </form>
-            <?php if(!empty($tweet)): ?>
-                <!--Mostrar el tweet-->
-                <h3>Tweet</h3>
-                <p><?= $tweetAuthor->getName()?> (@<?=$tweetAuthor->getUsername()?>) - Creation
-                    date: <?=$tweet->getCreatedAt()->format('d-m-Y h:i:s')?></p>
-                <blockquote><?= $tweet->getText() ?></blockquote>
-                <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
-                <!--TODO: Gestionar la putjada del fitxer-->
-                <?php if(!empty($_SESSION["imgName"])): ?>
-                    <img id="imatge" src="uploads/<?=$_SESSION["imgName"]?>" alt="imatge_personal" />
-                <?php endif; ?>
-            <?php endif; ?>
-            <!--Mostrat d'errors-->
-            <?php if(!empty($errors)): ?>
-                <?php foreach($errors as $error): ?>
-                    <p class="error"><?=$error?></p>
-                <?php endforeach; ?>
-            <?php endif; ?>
         </div>
         <div class="col-3 border"></div>
     </div>
