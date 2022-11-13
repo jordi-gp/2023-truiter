@@ -7,6 +7,9 @@
     use App\Video;
     session_start();
 
+    //Connexió a la base de dades
+    require_once('dbConnection.php');
+/*
     $info = [];
     $msg = "";
 
@@ -22,7 +25,7 @@
 
     $twitter->addUser($user);
 
-    // fem un delay de 4 segons perquè les dates de creació no coincidisquen
+    //Fem un delay de 4 segons perquè les dates de creació no coincidisquen
     //sleep(4);
     $userH = new User('Homer Simpson', 'homerj');
 
@@ -62,3 +65,4 @@
     $tweets = $twitter->getTweets();
 
     require 'views/index.view.php';
+*/

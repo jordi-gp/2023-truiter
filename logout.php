@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-    $mesage = "s'ha tancat la sessió";
+    $mesage = "S'ha tancat la sessió";
 
     if(!isset($_SESSION)) {
         session_start();
