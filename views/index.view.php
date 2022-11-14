@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <link rel="icon" href="../assets/corriol.png" />
     <style>
         #imatge {
             width: 300px;
@@ -23,18 +24,10 @@
         </div>
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
-            <?php if(!empty($info)): ?>
-                <p>Benvingut @<?=$info->getUsername();?></p>
-            <?php endif; ?>
-            <?php if(!empty($_SESSION["message"])): ?>
-                <p><?=$_SESSION["message"];?></p>
-                <?php unset($_SESSION["message"]); ?>
-            <?php endif; ?>
-            <p><?= $twitter->getNumberOfUsers() ?> users, <?= $twitter->getNumberOfTweets() ?> tweets.</p>
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
-                <p><?= $user->getName(); ?> (@<?= $user->getUsername() ?>); - Creation
-                    date: <?= $user->getCreatedAt()->format('d-m-Y h:i:s'); ?></p>
+                <p><?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation
+                    date: <?= $user["created_at"]; ?></p>
             <?php endforeach; ?>
             <h2>Tweets</h2>
             <?php foreach ($AllTweets as $tweet) : ?>

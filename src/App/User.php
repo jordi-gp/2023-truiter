@@ -12,11 +12,22 @@ class User
     private DateTime $createdAt;
     private bool $verified;
 
-    public function __construct(string $name, string $username)
+    public function __construct(int $id, string $name, string $username)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->username = $username;
         $this->createdAt = new DateTime();
+    }
+
+    public function setId(int $id):void
+    {
+        $this->id = $id;
+    }
+
+    public function getId():int
+    {
+        return $this->id;
     }
 
     /**

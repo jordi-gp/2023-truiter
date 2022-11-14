@@ -5,14 +5,7 @@
     */
 
     //Connexió a la bbdd
-    $dsn = "mysql:host=localhost; dbname=truiter";
-    $user = "root";
-    $password = "";
-    try {
-        $pdo = new PDO($dsn, $user, $password);
-    } catch (PDOException $err) {
-        echo $err->getMessage();
-    }
+    require_once('dbConnection.php');
 
     //Creació dels usuaris
     $created_at = Date("Y-m-d");
@@ -34,13 +27,25 @@
         "like_count" => 0
     ];
 
+    //Obtenció dels id's dels usuaris
+    try {
+        $stmt = $pdo->prepare("SELECT id FROM user");
+        $stmt->execute();
+        $userIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $err) {
+        $err->getMessage();
+    }
+
     //Inserció de tuits
     try {
-        $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count) VALUES (:text, :created_at, :like_count)");
+        $numOfUsers = count($userIds)-1;
+        $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count, user_id) VALUES (:text, :created_at, :like_count, :user_id)");
         foreach($tuits as $tuit) {
+            $userId = rand(0, $numOfUsers);
             $stmt->bindValue(':text', $tuit["text"]);
             $stmt->bindValue(':created_at', $created_at);
-            $stmt->bindValue('like_count', $tuit["like_count"]);
+            $stmt->bindValue(':like_count', $tuit["like_count"]);
+            $stmt->bindValue(':user_id', $userIds[$userId]["id"]);
             //$stmt->execute();
         }
     } catch (PDOException $err) {

@@ -68,7 +68,7 @@ use App\Video;
             $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count) VALUES(:text, :created_at, :like_count)");
             $stmt->bindValue(':text', $tweet["tuitValue"]);
             $stmt->bindValue(':created_at', $created_at);
-            $stmt->bindValue('like_count', 0);
+            $stmt->bindValue(':like_count', 0);
             $stmt->execute();
             //Imatge del tuit
             //$_SESSION["imgName"] = $randName.".".$imgFormat;
