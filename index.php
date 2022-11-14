@@ -6,7 +6,10 @@
     use App\User;
     use App\Video;
     session_start();
-    $info = [];
+    if(!empty($_SESSION["user"])) {
+        $info = $_SESSION["user"];
+        unset($_SESSION["user"]);
+    }
     $msg = "";
 
     $twitter = new Twitter();

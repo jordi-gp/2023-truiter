@@ -24,7 +24,7 @@
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
             <?php if(!empty($info)): ?>
-                <p>Benvingut @<?=$user2->getUsername();?></p>
+                <p>Benvingut @<?=$info->getUsername();?></p>
             <?php endif; ?>
             <?php if(!empty($_SESSION["message"])): ?>
                 <p><?=$_SESSION["message"];?></p>
