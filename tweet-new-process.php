@@ -59,22 +59,27 @@ use App\Video;
         if(!empty($errors)) {
             $_SESSION["errors"] = $errors;
             $_SESSION["infoTweet"] = $tweet;
+            header("Location: tweet-new.php");
+            exit();
             unset($_SESSION["newTweet"]);
         } else {
             //Tuit
-            $author = $_SESSION["user"];
-            $newTweet = new Tweet($tweet["tuitValue"], $author);
+            //$author = $_SESSION["user"];
+            var_dump($_SESSION);
+            //$newTweet = new Tweet($tweet["tuitValue"], $author);
             $created_at = Date("Y-m-d");
-            $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count) VALUES(:text, :created_at, :like_count)");
+            /*$stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count) VALUES(:text, :created_at, :like_count)");
             $stmt->bindValue(':text', $tweet["tuitValue"]);
             $stmt->bindValue(':created_at', $created_at);
             $stmt->bindValue(':like_count', 0);
-            $stmt->execute();
+            $stmt->execute();*/
+
             //Imatge del tuit
             //$_SESSION["imgName"] = $randName.".".$imgFormat;
+
             unset($_SESSION["errors"]);
+            //header("Location: index.php");
         }
-        header("Location: index.php");
         exit();
     } else {
         header("Location: tweet-new.php");

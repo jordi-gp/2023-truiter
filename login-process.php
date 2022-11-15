@@ -44,7 +44,6 @@
                 if(!password_verify($info["password"], $user["password"])) {
                     $errors[] = "La contrasenya indicada no es correcta!";
                 } else {
-                    $user = new User($user["name"], $user["username"]);
                     $_SESSION["logged"] = true;
                     $_SESSION["info"] = $info;
                     $_SESSION["user"] = $user;
@@ -58,10 +57,10 @@
         } catch (PDOException $err) {
             echo $err->getMessage();
         }
-
         if(!empty($errors)) {
             $_SESSION["errors"] = $errors;
-            $_SESSION["info"] = $info;
+            $_SESSION["username"] = $info;
+            $_SESSION["user"] = $info;
             header("Location: login.php");
         }
     } else {

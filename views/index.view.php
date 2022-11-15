@@ -24,24 +24,34 @@
         </div>
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
+            <?php if(!empty($info)): ?>
+                <p>Benvingut @<?= $info["username"]?></p>
+            <?php endif; ?>
+            <!--Missatge de tancament de sessió-->
+            <div>
+                <?php if(!empty($_SESSION["message"])): ?>
+                    <p><?= $_SESSION["message"] ?></p>
+                    <?php unset($_SESSION["message"]);?>
+                <?php endif; ?>
+            </div>
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
                 <p><?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation
                     date: <?= $user["created_at"]; ?></p>
             <?php endforeach; ?>
             <h2>Tweets</h2>
-            <?php foreach ($AllTweets as $tweet) : ?>
-                <?php $tweetUser = $tweet->getAuthor(); ?>
-                <p><?= $tweetUser->getName(); ?> (@<?= $tweetUser->getUsername(); ?>) - Creation
-                    date: <?= $tweetUser->getCreatedAt()->format("d-m-Y h:i:s"); ?></p>
-                <blockquote><?=$tweet->getText();?></blockquote>
-                <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
-                <?php if (count($tweet->getAttachments()) > 0) : ?>
+            <?php foreach ($tweets as $tweet) : ?>
+                <?php $tweet["username"]; ?>
+                <p><?= $tweet["name"]; ?> (@<?= $tweet["username"]; ?>) - Creation
+                    date: <?= $tweet["created_at"]; ?></p>
+                <blockquote><?=$tweet["text"];?></blockquote>
+                <p>Like counter: <?= $tweet["like_count"] ?></p>
+                <?php if ($tweet["media_id"] != null) : ?>
                     <h3>Attachments</h3>
                     <ul>
-                        <?php foreach ($tweet->getAttachments() as $attachment) : ?>
-                            <li><?php $attachment->getSummary() ?></li>
-                        <?php endforeach; ?>
+                        <?php //foreach ($tweet["media_id"]): ?>
+                            <li><?php //$attachment->getSummary() ?></li>
+                        <?php //endforeach; ?>
                     </ul>
                 <?php endif ;?>
                 <hr/>

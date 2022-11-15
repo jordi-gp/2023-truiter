@@ -17,7 +17,6 @@
         $stmt = $pdo->prepare("SELECT * FROM user");
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($users);
     } catch (PDOException $err) {
         echo $err->getMessage();
     }

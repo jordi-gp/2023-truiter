@@ -27,6 +27,16 @@
                 <input type="file" name="tuitFile" class="form-control mb-2" >
                 <button class="btn btn-primary" type="submit">Tuit with image</button>
             </form>
+            <?php if(!empty($_SESSION["errors"])): ?>
+            <div>
+                <h3>Errors</h3>
+                <?php foreach($_SESSION["errors"] as $error): ?>
+                    <p class="error">
+                        <?=$error?>
+                    </p>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
         </div>
         <div class="col-3 border"></div>
     </div>
