@@ -48,14 +48,10 @@
                     date: <?= $tweet["created_at"]; ?></p>
                 <blockquote><?=$tweet["text"];?></blockquote>
                 <p>Like counter: <?= $tweet["like_count"] ?></p>
-                <?php if ($tweet["media_id"] != null) : ?>
+                <?php //if ($tweet["media_id"] != null) : ?>
                     <h3>Attachments</h3>
-                    <ul>
-                        <?php //foreach ($tweet["media_id"]): ?>
-                            <li><?php //$attachment->getSummary() ?></li>
-                        <?php //endforeach; ?>
-                    </ul>
-                <?php endif ;?>
+                    <img id="imatge" src="../uploads/2ff30d9f970be7f88e141649675892f5.png" alt="imatge_tuit" />
+                <?php //endif ;?>
                 <hr/>
             <?php endforeach; ?>
         </div>
