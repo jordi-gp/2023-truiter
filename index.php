@@ -6,9 +6,9 @@
     use App\User;
     use App\Video;
     session_start();
-    if(!empty($_SESSION["user"])) {
-        $info = $_SESSION["user"];
-        unset($_SESSION["user"]);
+    if(!empty($_SESSION["info"])) {
+        $info = $_SESSION["info"];
+        unset($_SESSION["info"]);
     }
 
     //Connexió a la base de dades
@@ -16,6 +16,7 @@
     try {
         $stmt = $pdo->prepare("SELECT * FROM user");
         $stmt->execute();
+        $numOfUsers = $stmt->rowCount();
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $err) {
         echo $err->getMessage();
@@ -25,6 +26,7 @@
     try {
         $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id ORDER BY t.created_at DESC");
         $stmt->execute();
+        $numOfTuits = $stmt->rowCount();
         $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $err) {
         echo $err->getMessage();

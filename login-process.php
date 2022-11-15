@@ -1,10 +1,7 @@
 <?php declare(strict_types=1);
-    use App\User;
-    require_once 'autoload.php';
     session_start();
     require_once('dbConnection.php');
 
-    $isLogged = false;
     $errors = [];
     $info = [
         "username" => "",
@@ -60,9 +57,9 @@
         if(!empty($errors)) {
             $_SESSION["errors"] = $errors;
             $_SESSION["username"] = $info;
-            $_SESSION["user"] = $info;
             header("Location: login.php");
         }
+        exit();
     } else {
         header("Location: login.php");
         exit();

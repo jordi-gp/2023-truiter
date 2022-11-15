@@ -24,6 +24,8 @@
         </div>
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
+            <p><?=$numOfUsers?> users, <?=$numOfTuits?> tuits</p>
+            <!--Missatge de benvinguda-->
             <?php if(!empty($info)): ?>
                 <p>Benvingut @<?= $info["username"]?></p>
             <?php endif; ?>

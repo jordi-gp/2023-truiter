@@ -23,7 +23,7 @@
         <div class="col-7 border p-4">
             <h2>Nou truit</h2>
             <form class="mb-4" method="post" action="tweet-new-process.php" enctype="multipart/form-data">
-                <textarea class="form-control mb-2" name="tuitValue" placeholder="Què passa, @<?=$info["username"];?>?"></textarea>
+                <textarea class="form-control mb-2" name="tuitValue" placeholder="Què passa, @<?=$_SESSION["user"]["username"];?>?"></textarea>
                 <input type="file" name="tuitFile" class="form-control mb-2" >
                 <button class="btn btn-primary" type="submit">Tuit with image</button>
             </form>
