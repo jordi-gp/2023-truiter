@@ -28,6 +28,12 @@
         $stmt->execute();
         $numOfTuits = $stmt->rowCount();
         $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        //Obtenció dels id's dels tuits
+        $stmt = $pdo->prepare("SELECT * FROM media WHERE tuit_id=:id");
+        $stmt->bindValue(':id', $tweets["id"]);
+        $stmt->execute();
+        var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
     } catch (PDOException $err) {
         echo $err->getMessage();
     }

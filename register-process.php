@@ -4,6 +4,7 @@
 
     $register_errors = [];
     $user_info = [
+        "id" => "",
         "name" => "",
         "username" => "",
         "password" => "",
@@ -72,14 +73,16 @@
         } else {
             $verified = 0;
             $hashed_password = password_hash($user_info["repeated_password"], PASSWORD_DEFAULT);
+            $created_at = (new DateTime())->format("Y-m-d");
             $stmt = $pdo->prepare("INSERT INTO user(name, username, password, created_at, verified) VALUES (:name, :username, :password, :created_at, :verified)");
             $stmt->bindValue('name', $user_info["name"]);
             $stmt->bindValue('username', $user_info["username"]);
             $stmt->bindValue('password', $hashed_password);
-            $stmt->bindValue('created_at', $user_info["created_at"]);
+            $stmt->bindValue('created_at', $created_at);
             $stmt->bindValue('verified', $verified);
             $stmt->execute();
 
+            $user_info["id"] = $pdo->lastInsertId();
             $_SESSION["logged"] = true;
             $_SESSION["info"] = $user_info;
             $_SESSION["user"] = $user_info;

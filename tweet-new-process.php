@@ -22,6 +22,7 @@ use App\Video;
         "image/jpg" => "jpg",
         "image/jpeg" => "jpeg"
     ];
+    $imageValid = false;
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         //Validació del formulari
@@ -51,7 +52,9 @@ use App\Video;
                 $tmpName = $img["tmp_name"];
                 $imgInf = explode("/", $img["type"]);
                 $imgFormat = $imgInf[1];
-                move_uploaded_file($tmpName, "$imgDir/$randName.$imgFormat");
+                $rutaImg = "$imgDir/$randName.$imgFormat";
+                move_uploaded_file($tmpName, $rutaImg);
+                $imageValid = true;
             }
         }
 
@@ -64,6 +67,7 @@ use App\Video;
             unset($_SESSION["newTweet"]);
         } else {
             //Informació de l'usuari
+            var_dump($_SESSION);
             $user_info = $_SESSION["user"];
             $created_at = new DateTime();
 
@@ -75,8 +79,21 @@ use App\Video;
             $stmt->execute();
 
             //Imatge del tuit
-            //$_SESSION["imgName"] = $randName.".".$imgFormat;
+            $tuitId = $pdo->lastInsertId();
 
+            //Tamany de l'imatge
+            $size = getimagesize($rutaImg);
+            $width = $size[0];
+            $height = $size[0];
+            if($imageValid) {
+                $stmt = $pdo->prepare("INSERT INTO media (alt_text, height, width, url, tuit_id) VALUES (:alt_text, :height, :width, :url, :tuit_id)");
+                $stmt->bindValue(':alt_text', "imatge_tuit");
+                $stmt->bindValue(':height', $height);
+                $stmt->bindValue(':width', $width);
+                $stmt->bindValue(':url', $rutaImg);
+                $stmt->bindValue(':tuit_id', $tuitId);
+                $stmt->execute();
+            }
             unset($_SESSION["errors"]);
             header("Location: index.php");
         }
