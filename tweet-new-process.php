@@ -79,20 +79,22 @@ use App\Video;
             $stmt->execute();
 
             //Imatge del tuit
-            $tuitId = $pdo->lastInsertId();
+            if(!isset($_FILES)) {
+                $tuitId = $pdo->lastInsertId();
 
-            //Tamany de l'imatge
-            $size = getimagesize($rutaImg);
-            $width = $size[0];
-            $height = $size[0];
-            if($imageValid) {
-                $stmt = $pdo->prepare("INSERT INTO media (alt_text, height, width, url, tuit_id) VALUES (:alt_text, :height, :width, :url, :tuit_id)");
-                $stmt->bindValue(':alt_text', "imatge_tuit");
-                $stmt->bindValue(':height', $height);
-                $stmt->bindValue(':width', $width);
-                $stmt->bindValue(':url', $rutaImg);
-                $stmt->bindValue(':tuit_id', $tuitId);
-                $stmt->execute();
+                //Tamany de l'imatge
+                $size = getimagesize($rutaImg);
+                $width = $size[0];
+                $height = $size[0];
+                if($imageValid) {
+                    $stmt = $pdo->prepare("INSERT INTO media (alt_text, height, width, url, tuit_id) VALUES (:alt_text, :height, :width, :url, :tuit_id)");
+                    $stmt->bindValue(':alt_text', "imatge_tuit");
+                    $stmt->bindValue(':height', $height);
+                    $stmt->bindValue(':width', $width);
+                    $stmt->bindValue(':url', $rutaImg);
+                    $stmt->bindValue(':tuit_id', $tuitId);
+                    $stmt->execute();
+                }
             }
             unset($_SESSION["errors"]);
             header("Location: index.php");
