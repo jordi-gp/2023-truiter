@@ -2,9 +2,6 @@
     session_start();
 
     if(isset($_SESSION["logged"])) {
-        //Connexió a la bbdd
-        require_once 'dbConnection.php';
-
         //Informació de l'usuari
         $userInfo = $_SESSION["user"];
 
