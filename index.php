@@ -11,6 +11,11 @@
         unset($_SESSION["info"]);
     }
 
+    if(!empty($_SESSION["search_errors"])) {
+        $search_errors = $_SESSION["search_errors"];
+        unset($_SESSION["search_errors"]);
+    }
+
     //Connexió a la base de dades
     require_once('dbConnection.php');
     try {

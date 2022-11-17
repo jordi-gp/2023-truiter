@@ -13,6 +13,11 @@
             width: 300px;
             height: 300px;
         }
+
+        .error {
+            font-weight: bold;
+            color: red;
+        }
     </style>
     <title>Truiter: una grollera còpia de Twitter</title>
 </head>
@@ -25,6 +30,19 @@
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
             <p><?=$numOfUsers?> users, <?=$numOfTuits?> tuits</p>
+            <!--Buscador de Tweets-->
+            <div class="mt-2 mb-2">
+                <h2>Buscador de Tweets</h2>
+                <form class="d-flex" method="post" action="search-tweet.php">
+                    <input class="form-control me-2" name="tuit_search" type="search" placeholder="Buscar Tweet..." aria-label="Search">
+                    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                </form>
+                <?php if(!empty($search_errors)): ?>
+                    <?php foreach($search_errors as $search_err): ?>
+                        <p class="error mt-2"><?=$search_err?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
             <!--Missatge de benvinguda-->
             <?php if(!empty($info)): ?>
                 <p>Benvingut @<?= $info["username"]?></p>
