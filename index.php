@@ -24,15 +24,12 @@
 
     //Obtenció de tweets de la bbdd
     try {
-        $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id ORDER BY t.created_at DESC");
+        $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id
+                                     LEFT JOIN media m ON t.id = m.tuit_id
+                                     ORDER BY t.created_at DESC");
         $stmt->execute();
         $numOfTuits = $stmt->rowCount();
         $tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        //Obtenció dels id's dels tuits
-        /*$stmt = $pdo->prepare("SELECT * FROM media WHERE tuit_id=:id");
-        $stmt->bindValue(':id', $tweets["id"]);
-        $stmt->execute();*/
     } catch (PDOException $err) {
         echo $err->getMessage();
     }

@@ -36,11 +36,13 @@
                     <?php unset($_SESSION["message"]);?>
                 <?php endif; ?>
             </div>
+            <!--Usuaris-->
             <h2>Users</h2>
             <?php foreach ($users as $user) : ?>
                 <p><?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation
                     date: <?= $user["created_at"]; ?></p>
             <?php endforeach; ?>
+            <!--Tuits-->
             <h2>Tweets</h2>
             <?php foreach ($tweets as $tweet) : ?>
                 <?php $tweet["username"]; ?>
@@ -48,12 +50,10 @@
                     date: <?= $tweet["created_at"]; ?></p>
                 <blockquote><?=$tweet["text"];?></blockquote>
                 <p>Like counter: <?= $tweet["like_count"] ?></p>
-                <?php //if ($tweet["media_id"] != null) : ?>
-                    <!--
+                <?php if ($tweet["url"] != null) : ?>
                     <h3>Attachments</h3>
-                    <img id="imatge" src="uploads/2ff30d9f970be7f88e141649675892f5.png" alt="imatge_tuit" />
-                    -->
-                <?php //endif ;?>
+                    <img id="imatge" src="<?=$tweet["url"]?>" alt="<?=$tweet["alt_text"]?>" />
+                <?php endif ;?>
                 <hr/>
             <?php endforeach; ?>
         </div>

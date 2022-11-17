@@ -79,7 +79,8 @@ use App\Video;
             $stmt->execute();
 
             //Imatge del tuit
-            if(!isset($_FILES)) {
+            var_dump($_FILES);
+            if($_FILES["tuitFile"]["error"] === UPLOAD_ERR_OK) {
                 $tuitId = $pdo->lastInsertId();
 
                 //Tamany de l'imatge
