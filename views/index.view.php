@@ -51,7 +51,6 @@
                 <blockquote><?=$tweet["text"];?></blockquote>
                 <p>Like counter: <?= $tweet["like_count"] ?></p>
                 <?php if ($tweet["url"] != null) : ?>
-                    <h3>Attachments</h3>
                     <img id="imatge" src="<?=$tweet["url"]?>" alt="<?=$tweet["alt_text"]?>" />
                 <?php endif ;?>
                 <hr/>

@@ -28,15 +28,15 @@
             if(strlen($_POST["username"]) > 100) {
                 $register_errors[] = "El nom d'usuari no pot superar els 100 caràcters";
             } else {
-                $stmt = $pdo->prepare("SELECT username FROM user");
+                $stmt = $pdo->prepare("SELECT username FROM user WHERE username=:username");
+                $stmt->bindValue(':username', $_POST["username"]);
                 $stmt->execute();
-                $registered_users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach($registered_users as $reg_user) {
-                    if($reg_user["username"] === $_POST["username"]) {
-                        $register_errors[] = "El nom d'usuari proporcionat ja es troba registrat";
-                    } else {
-                        $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
-                    }
+
+                $registered_user = $stmt->fetch(PDO::FETCH_ASSOC);
+                if($registered_user != false) {
+                    $register_errors[] = "El nom d'usuari proporcionat ja es troba registrat";
+                } else {
+                    $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
                 }
             }
         } else {
@@ -47,7 +47,7 @@
             if(strlen($_POST["password"]) > 100) {
                 $register_errors[] = "La contrasenya no pot contindre més de 100 caràcters";
             } else {
-                $user_info["password"] = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
+                $user_info["password"] = $_POST["password"];
             }
         } else {
             $register_errors[] = "S'ha d'introduïr una contrasenya";
@@ -59,7 +59,7 @@
             } else if($_POST["password"] != $_POST["repeated_password"]) {
                 $register_errors[] = "Les contrasenyes han de coincidir";
             } else {
-                $user_info["repeated_password"] = filter_var($_POST["repeated_password"], FILTER_SANITIZE_SPECIAL_CHARS);
+                $user_info["repeated_password"] = $_POST["repeated_password"];
             }
         } else {
             $register_errors[] = "S'ha de tornar a introduïr la contrasenya";
