@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="icon" href="../assets/corriol.png" />
     <style>
         #imatge {
@@ -55,24 +56,46 @@
                 <?php endif; ?>
             </div>
             <!--Usuaris-->
-            <h2>Users</h2>
-            <?php foreach ($users as $user) : ?>
-                <p><?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation
-                    date: <?= $user["created_at"]; ?></p>
-            <?php endforeach; ?>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Usuaris
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <?php foreach ($users as $user) : ?>
+                        <div class="accordion-body">
+                            <?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation date: <?= $user["created_at"]; ?>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
             <!--Tuits-->
-            <h2>Tweets</h2>
-            <?php foreach ($tweets as $tweet) : ?>
-                <?php $tweet["username"]; ?>
-                <p><?= $tweet["name"]; ?> (@<?= $tweet["username"]; ?>) - Creation
-                    date: <?= $tweet["created_at"]; ?></p>
-                <blockquote><?=$tweet["text"];?></blockquote>
-                <p>Like counter: <?= $tweet["like_count"] ?></p>
-                <?php if ($tweet["url"] != null) : ?>
-                    <img id="imatge" src="<?=$tweet["url"]?>" alt="<?=$tweet["alt_text"]?>" />
-                <?php endif ;?>
-                <hr/>
-            <?php endforeach; ?>
+            <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            Tweets
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <?php foreach ($tweets as $tweet) : ?>
+                            <div class="accordion-body">
+                                <p><?= $tweet["name"]; ?> (@<?= $tweet["username"]; ?>) - Creation
+                                    date: <?= $tweet["created_at"]; ?></p>
+                                <blockquote><?=$tweet["text"];?></blockquote>
+                                <p>Like counter: <?= $tweet["like_count"] ?></p>
+                                <?php if ($tweet["url"] != null) : ?>
+                                    <img id="imatge" src="<?=$tweet["url"]?>" alt="<?=$tweet["alt_text"]?>" />
+                                <?php endif ;?>
+                                <hr/>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-4"></div>
     </div>

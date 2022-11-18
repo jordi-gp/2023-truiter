@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="icon" href="../assets/corriol.png" />
     <style>
-        #imatge {
-            width: 300px;
-            height: 300px;
+        .image {
+            width: 400px;
+            height: 400px;
         }
     </style>
     <title>Truiter: una grollera còpia de Twitter</title>
@@ -26,19 +26,20 @@
             <!--Tuits Trobats-->
             <h2>Tweets Trobats</h2>
             <?php if(!empty($found_tweets)): ?>
-                <?php //foreach ($tweets as $tweet) : ?>
-                    <?php //$tweet["username"]; ?>
-                    <p><?php // $tweet["name"]; ?> (@<?php // $tweet["username"]; ?>) - Creation
-                        date: <?php // $tweet["created_at"]; ?></p>
-                    <blockquote><?php //$tweet["text"];?></blockquote>
-                    <p>Like counter: <?php // $tweet["like_count"] ?></p>
-                    <?php // if ($tweet["url"] != null) : ?>
-                        <img id="imatge" src="<?php //$tweet["url"]?>" alt="<?php //$tweet["alt_text"]?>" />
-                    <?php //endif ;?>
+                <?php foreach ($found_tweets as $tweet) : ?>
+                    <?=$tweet["username"];?>
+                    <p><?=$tweet["name"];?> (@<?=$tweet["username"];?>) - Creation
+                        date: <?=$tweet["created_at"];?></p>
+                    <blockquote><?=$tweet["text"];?></blockquote>
+                    <p>Like counter: <?=$tweet["like_count"];?></p>
+                    <?php if ($tweet["url"] != null) : ?>
+                        <img class="image" src="<?=$tweet["url"];?>" alt="<?=$tweet["alt_text"];?>" />
+                    <?php endif ;?>
                     <hr/>
-                <?php //endforeach; ?>
+                <?php endforeach; ?>
             <?php else: ?>
-                <h3>No s'han trobat tuits amb els valors indicats</h3>
+                <h4>No s'han trobat tuits amb els valors indicats</h4>
+                <img class="image" src="assets/homer_think.png" alt="not_found_tweet" />
             <?php endif; ?>
         </div>
         <div class="col-4"></div>
