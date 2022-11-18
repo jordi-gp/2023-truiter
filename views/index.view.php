@@ -33,7 +33,7 @@
             <!--Buscador de Tweets-->
             <div class="mt-2 mb-2">
                 <h2>Buscador de Tweets</h2>
-                <form class="d-flex" method="post" action="search-tweet.php">
+                <form class="d-flex" method="post" action="find-tweet.php">
                     <input class="form-control me-2" name="tuit_search" type="search" placeholder="Buscar Tweet..." aria-label="Search">
                     <button class="btn btn-outline-primary" type="submit">Buscar</button>
                 </form>

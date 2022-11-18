@@ -12,7 +12,7 @@
             if(strlen($_POST["tuit_search"]) > 280) {
                 $search_errors[] = "Un tuit no pot contindre més de 280 caracters";
             } else {
-                $value_search = $_POST["tuit_search"];
+                $value_search = filter_var($_POST["tuit_search"], FILTER_SANITIZE_SPECIAL_CHARS);
             }
         } else {
             $search_errors[] = "No es pot realitzar una búsqueda sense indicar un valor";
@@ -20,14 +20,15 @@
 
         if(empty($search_errors)) {
             $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id
-                                        LEFT JOIN media m ON t.id = m.tuit_id
-                                        ORDER BY t.created_at DESC WHERE t.text LIKE '%:text%'");
-            $stmt->bindValue(':text', $value_search);
+                                         LEFT JOIN media m ON t.id = m.tuit_id
+                                         WHERE t.text LIKE :text ORDER BY t.created_at DESC");
+            $stmt->bindValue(':text', "%$value_search%");
             $stmt->execute();
 
-            var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
-
+            $found_tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
             unset($_SESSION["search_errors"]);
+
+            require_once "views/found-tweet.view.php";
         } else {
             $_SESSION["search_errors"] = $search_errors;
             header("Location: index.php");
