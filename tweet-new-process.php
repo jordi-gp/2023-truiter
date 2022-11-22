@@ -6,6 +6,8 @@ use App\User;
 use App\Video;
     require_once 'autoload.php';
     require_once 'dbConnection.php';
+    require_once 'src/App/Helpers/FlashMessage.php';
+    require_once 'src/App/Helpers/UploadedFileHandler.php';
     session_start();
 
     $isPost = false;
@@ -60,15 +62,15 @@ use App\Video;
 
         //Gestió a l'hora d'enviar el formulari
         if(!empty($errors)) {
-            $_SESSION["errors"] = $errors;
-            $_SESSION["infoTweet"] = $tweet;
+            FlashMessage::set('new_tweet_errors', $errors);
+            FlashMessage::set('infoTweet', $tweet);
             header("Location: tweet-new.php");
             exit();
             unset($_SESSION["newTweet"]);
         } else {
             //Informació de l'usuari
             var_dump($_SESSION);
-            $user_info = $_SESSION["user"];
+            $user_info = FlashMessage::get('user');
             $created_at = new DateTime();
 
             $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count, user_id) VALUES(:text, :created_at, :like_count, :user_id)");
@@ -79,7 +81,6 @@ use App\Video;
             $stmt->execute();
 
             //Imatge del tuit
-            var_dump($_FILES);
             if($_FILES["tuitFile"]["error"] === UPLOAD_ERR_OK) {
                 $tuitId = $pdo->lastInsertId();
 

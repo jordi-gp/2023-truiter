@@ -18,12 +18,20 @@
          * després de llegir-lo l'esborrem
          * si no existeix tornem el valor indicat per defecte.
          * @param string $key
-         * @param mixed $defaultValue
-         * @return mixed|string
+         * @param null|array $defaultValue
+         * @return null|string
          */
-        public static function get(string $key, $defaultValue = []):array
+        public static function get(string $key, null|array $defaultValue = []):mixed
         {
+            # Retorna el valor de la variable de sessió
+            if(!empty($_SESSION[self::SESSION_KEY][$key])) {
+                return($_SESSION[self::SESSION_KEY][$key]);
+            }
+
+            # Retorna un array buit per defecte
+            self::set($key, $defaultValue);
             return($_SESSION[self::SESSION_KEY][$key]);
+
             # self::unset($_SESSION[self::SESSION_KEY][$key]);
         }
 
@@ -41,6 +49,6 @@
          */
         private static function unset(string $key)
         {
-            //unset($_SESSION[self::SESSION_KEY][$key]);
+            unset($_SESSION[self::SESSION_KEY][$key]);
         }
     }

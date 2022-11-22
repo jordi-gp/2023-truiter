@@ -23,16 +23,16 @@
             <form class="mt-2" method="post" action="register-process.php">
                 <!--Nom-->
                 <label for="name" class="form-label">Nom</label>
-                <input id="usuario mb-2" class="form-control" <?php if(!empty($form["name"])):?>value="<?=$form["name"]?>"<?php endif;?> name="name" >
+                <input id="usuario mb-2" class="form-control" <?php if(!empty($info_form["name"])):?>value="<?=$info_form["name"]?>"<?php endif;?> name="name" >
                 <!--Nom d'usuari-->
                 <label for="username" class="form-label"">Usuari</label>
-                <input id="usuario mb-2" class="form-control" <?php if(!empty($form["username"])):?>value="<?=$form["username"]?>"<?php endif;?> name="username" >
+                <input id="usuario mb-2" class="form-control" <?php if(!empty($info_form["username"])):?>value="<?=$info_form["username"]?>"<?php endif;?> name="username" >
                 <!--Contrasenya-->
                 <label for="password" class="form-label">Contrasenya</label>
-                <input id="password" type="password" class="form-control mb-2" <?php if(!empty($form["password"])):?>value="<?=$form["password"]?>"<?php endif;?> name="password">
+                <input id="password" type="password" class="form-control mb-2" <?php if(!empty($info_form["password"])):?>value="<?=$info_form["password"]?>"<?php endif;?> name="password">
                 <!--Contrasenya repetida-->
                 <label for="repeated_password" class="form-label">Repeteix la contrasenya</label>
-                <input id="repeated_password" type="password" class="form-control mb-2" <?php if(!empty($form["repeated_password"])):?>value="<?=$form["repeated_password"]?>"<?php endif;?> name="repeated_password">
+                <input id="repeated_password" type="password" class="form-control mb-2" <?php if(!empty($info_form["repeated_password"])):?>value="<?=$info_form["repeated_password"]?>"<?php endif;?> name="repeated_password">
                 <!--Mostrat d'errors-->
                 <?php if(!empty($register_error)): ?>
                     <?php foreach($register_error as $error): ?>

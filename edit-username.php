@@ -1,16 +1,16 @@
 <?php
     session_start();
+    require_once 'src/App/Helpers/FlashMessage.php';
 
-    if(isset($_SESSION["logged"])) {
-        //Informació de l'usuari
-        $userInfo = $_SESSION["user"];
-
-        if(isset($_SESSION["errors"])) {
-            $errors = $_SESSION["errors"];
-        }
-
-        require 'views/edit-username.view.php';
-    } else {
+    $logged = FlashMessage::get('logged');
+    if(!$logged) {
         header("Location: index.php");
         exit();
+    } else {
+        # Informació de l'usuari
+        $user_info = FlashMessage::get('user');
+
+        $errors = FlashMessage::get('update_username_errors');
+
+        require 'views/edit-username.view.php';
     }

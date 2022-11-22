@@ -1,5 +1,6 @@
 <?php
     require_once 'autoload.php';
+    require_once 'src/App/Helpers/FlashMessage.php';
     use App\Photo;
     use App\Tweet;
     use App\Twitter;
@@ -8,23 +9,16 @@
     session_start();
 
     //Si no està loggejat l'usuari no pot accedir
-    if(!isset($_SESSION["logged"])) {
+    $logged = FlashMessage::get('logged');
+    if(!$logged) {
         header("Location: index.php");
         exit();
     } else {
-        $errors = [];
-        if(isset($_SESSION["errors"])) {
-            $errors = $_SESSION["errors"];
-        }
-        //Informació de l'usuari que ens interesa guardar
-        if(isset($_SESSION["info"])) {
-            $info = $_SESSION["info"];
-        }
+        # Errors del formulari
+        $errors = FlashMessage::get('new_tweet_errors');
 
-        if(!empty($_SESSION["newTweet"])) {
-            $tweet = $_SESSION["newTweet"];
-            $tweetAuthor = $tweet->getAuthor();
-        }
+        # Informació de l'usuari
+        $info = FlashMessage::get('info');
     }
 
     require 'views/tweet-new.view.php';

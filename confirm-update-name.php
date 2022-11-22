@@ -1,11 +1,12 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         session_start();
+        require_once 'src/App/Helpers/FlashMessage.php';
 
-        //Connexió a la base de dades
+        # Connexió a la base de dades
         require_once 'dbConnection.php';
 
-        $userInf = $_SESSION["user"];
+        $userInf = FlashMessage::get('user');
         $errors = [];
         $new_name = "";
 
@@ -24,19 +25,18 @@
             $stmt->bindValue('new_name', $new_name);
             $stmt->bindValue('user_id', $userInf["id"]);
             $stmt->execute();
-            $_SESSION["user"]["name"] = $new_name;
+            $userInf["name"] = $new_name;
 
-            //Eliminació d'errors del formulari
+            # Eliminació d'errors del formulari
             unset($_SESSION["errors"]);
 
             //Missatge flash de confirmació per a l'usuari
             $flash_message = "El nom del compter s'ha canviat de forma correcta!";
-            $_SESSION["message"] = $flash_message;
-
+            FlashMessage::set('confirm_message', $flash_message);
             header("Location: index.php");
             exit();
         } else {
-            $_SESSION["errors"] = $errors;
+            FlashMessage::set('update_name_error', $errors);
             header("Location: edit-name.php");
             exit();
         }

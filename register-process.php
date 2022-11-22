@@ -34,7 +34,7 @@
                 $stmt->execute();
 
                 $registered_user = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($registered_user != false) {
+                if($registered_user) {
                     $register_errors[] = "El nom d'usuari proporcionat ja es troba registrat";
                 } else {
                     $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);

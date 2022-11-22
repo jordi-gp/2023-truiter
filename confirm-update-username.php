@@ -1,11 +1,12 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         session_start();
+        require_once 'src/App/Helpers/FlashMessage.php';
 
-        //Connexió a la base de dades
+        # Connexió a la base de dades
         require_once 'dbConnection.php';
 
-        $userInf = $_SESSION["user"];
+        $user_inf = FlashMessage::get('user');
         $errors = [];
         $new_username = "";
 
@@ -32,21 +33,23 @@
         if(empty($errors)) {
             $stmt = $pdo->prepare("UPDATE user SET username=:new_username WHERE id=:user_id");
             $stmt->bindValue('new_username', $new_username);
-            $stmt->bindValue('user_id', $userInf["id"]);
+            $stmt->bindValue('user_id', $user_inf["id"]);
             $stmt->execute();
-            $_SESSION["user"]["username"] = $new_username;
 
-            //Eliminació d'errors del formulari
+            # $user_inf["username"] = $new_username;
+            FlashMessage::set('username', $new_username);
+
+            # Eliminació d'errors del formulari
             unset($_SESSION["errors"]);
 
-            //Missatge flash de confirmació per a l'usuari
+            # Missatge flash de confirmació per a l'usuari
             $flash_message = "El nom d'usuari s'ha canviat de forma correcta!";
-            $_SESSION["message"] = $flash_message;
+            FlashMessage::set('message', $flash_message);
 
             header("Location: index.php");
             exit();
         } else {
-            $_SESSION["errors"] = $errors;
+            FlashMessage::set('update_username_errors', $errors);
             header("Location: edit-username.php");
             exit();
         }

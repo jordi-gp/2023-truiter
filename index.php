@@ -1,20 +1,15 @@
 <?php
     require_once 'autoload.php';
+    require 'src/App/Helpers/FlashMessage.php';
     use App\Photo;
     use App\Tweet;
     use App\Twitter;
     use App\User;
     use App\Video;
     session_start();
-    if(!empty($_SESSION["info"])) {
-        $info = $_SESSION["info"];
-        unset($_SESSION["info"]);
-    }
 
-    if(!empty($_SESSION["search_errors"])) {
-        $search_errors = $_SESSION["search_errors"];
-        unset($_SESSION["search_errors"]);
-    }
+    $info = FlashMessage::get('info');
+    $search_errors = FlashMessage::get('search_errors');
 
     //Connexió a la base de dades
     require_once('dbConnection.php');

@@ -1,3 +1,4 @@
+<?php require_once 'src/App/Helpers/FlashMessage.php'; ?>
 <nav class="navbar navbar-light flex-column align-items-start">
     <a class="ms-3 navbar-brand" href="#">
         <img src="assets/eggcracked_2.svg" alt="" width="50" height="50">
@@ -12,9 +13,10 @@
 </nav>
 <nav>
     <ul class="nav flex-column">
-        <?php if(!empty($_SESSION["user"])): ?>
+        <?php $user_inf = FlashMessage::get('user'); ?>
+        <?php if($user_inf): ?>
             <li class="nav-item"><a class="nav-link" href="logout.php"><i class="bi bi-person-fill"></i>
-                    @<?= $_SESSION["user"]["username"];?></a></li>
+                    @<?= $user_inf["username"];?></a></li>
         <?php else: ?>
             <li class="nav-item"><a class="nav-link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Iniciar
                     sessió</a></li>

@@ -1,6 +1,6 @@
 <?php
     session_start();
-
+    require 'src/App/Helpers/FlashMessage.php';
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         //Connexió a la base de dades
         require_once "dbConnection.php";
@@ -30,7 +30,7 @@
 
             require_once "views/found-tweet.view.php";
         } else {
-            $_SESSION["search_errors"] = $search_errors;
+            FlashMessage::set('search_errors', $search_errors);
             header("Location: index.php");
             exit();
         }

@@ -41,13 +41,6 @@
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
                 if(!password_verify($info["password"], $user["password"])) {
                     $errors[] = "La contrasenya indicada no es correcta!";
-                } else {
-                    $_SESSION["logged"] = true;
-                    $_SESSION["info"] = $info;
-                    $_SESSION["user"] = $user;
-                    unset($_SESSION["errors"]);
-                    header("Location: index.php");
-                    exit();
                 }
             } else {
                 $errors[] = "L'usuari indicat no es troba registrat!";
@@ -56,9 +49,15 @@
             echo $err->getMessage();
         }
         if(!empty($errors)) {
-            FlashMessage::set("errors", $errors);
+            FlashMessage::set("login_errors", $errors);
             FlashMessage::set("username", $info);
             header("Location: login.php");
+        } else {
+            FlashMessage::set('logged', true);
+            FlashMessage::set('info', $info);
+            FlashMessage::set('user', $user);
+            unset($_SESSION["errors"]);
+            header("Location: index.php");
         }
         exit();
     } else {
