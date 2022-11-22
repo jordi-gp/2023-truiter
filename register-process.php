@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
     session_start();
-    require_once('dbConnection.php');
+    require_once 'dbConnection.php';
+    require_once 'src/App/Helpers/FlashMessage.php';
 
     $register_errors = [];
     $user_info = [
@@ -67,8 +68,8 @@
 
         //Comprovació de la validació
         if(!empty($register_errors)) {
-            $_SESSION["register_error"] = $register_errors;
-            $_SESSION["form"] = $user_info;
+            FlashMessage::set("register_errors", $register_errors);
+            FlashMessage::set("form", $user_info);
             header("Location: register.php");
         } else {
             $verified = 0;
@@ -83,9 +84,9 @@
             $stmt->execute();
 
             $user_info["id"] = $pdo->lastInsertId();
-            $_SESSION["logged"] = true;
-            $_SESSION["info"] = $user_info;
-            $_SESSION["user"] = $user_info;
+            FlashMessage::set("logged", true);
+            FlashMessage::set("info", $user_info);
+            FlashMessage::set("user", $user_info);
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);
             header("Location: index.php");

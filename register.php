@@ -1,15 +1,9 @@
-<?php
+<?php declare(strict_types=1);
     session_start();
+    require_once 'src/App/Helpers/FlashMessage.php';
 
-    //Errors del formulari
-    $register_error = [];
-    if(isset($_SESSION["register_error"])) {
-        $register_error = $_SESSION["register_error"];
-    }
+    # En cas de no haver valor retorna un array buit per defecte
+    $register_error = FlashMessage::get('register_errors');
+    $info = FlashMessage::get('form');
 
-    //Informació correcta del formulari
-    $form = [];
-    if(isset($_SESSION["form"])) {
-        $form = $_SESSION["form"];
-    }
     require_once 'views/register.view.php';

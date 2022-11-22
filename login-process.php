@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
     session_start();
-    require_once('dbConnection.php');
+    require_once 'dbConnection.php';
+    require_once 'src/App/Helpers/FlashMessage.php';
 
     $errors = [];
     $info = [
@@ -55,8 +56,8 @@
             echo $err->getMessage();
         }
         if(!empty($errors)) {
-            $_SESSION["errors"] = $errors;
-            $_SESSION["username"] = $info;
+            FlashMessage::set("errors", $errors);
+            FlashMessage::set("username", $info);
             header("Location: login.php");
         }
         exit();
