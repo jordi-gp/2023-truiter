@@ -2,6 +2,9 @@
 
 // src/App/Helpers
 
+# use App\Exceptions\NoUploadedFileException;
+# use App\Exceptions\UploadedFileException;
+
 class UploadedFileHandler {
     private array $uploadedFile;
     private int $maxSize;
@@ -28,7 +31,7 @@ class UploadedFileHandler {
            case UPLOAD_ERR_INI_SIZE:
            case UPLOAD_ERR_FORM_SIZE:
            case UPLOAD_ERR_PARTIAL:
-               throw new UploadedFileException("Error no controlat en la pujada ({$this->uploadedFile["error"]})" );
+               # throw new UploadedFileException("Error no controlat en la pujada ({$this->uploadedFile["error"]})" );
        }
        if ($this->uploadedFile["error"] !== UPLOAD_ERR_OK )
            throw new Exception("Error en la pujada");
