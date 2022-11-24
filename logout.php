@@ -1,5 +1,6 @@
-<?php declare(strict_types=1);
-    $mesage = "S'ha tancat la sessió";
+<?php
+    require_once 'src/App/Helpers/FlashMessage.php';
+    $message = "S'ha tancat la sessió";
 
     if(!isset($_SESSION)) {
         session_start();
@@ -8,7 +9,7 @@
             session_destroy();
         }
         session_start();
-        $_SESSION["message"] = $mesage;
+        FlashMessage::set('message', $message);
         header("Location: index.php");
         exit();
     }

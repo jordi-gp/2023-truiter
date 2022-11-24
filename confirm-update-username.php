@@ -36,16 +36,14 @@
             $stmt->bindValue('user_id', $user_inf["id"]);
             $stmt->execute();
 
-            # $user_inf["username"] = $new_username;
-            FlashMessage::set('username', $new_username);
+            $_SESSION["user"]["username"] = $new_username;
 
             # Eliminació d'errors del formulari
             unset($_SESSION["errors"]);
 
             # Missatge flash de confirmació per a l'usuari
             $flash_message = "El nom d'usuari s'ha canviat de forma correcta!";
-            FlashMessage::set('message', $flash_message);
-
+            FlashMessage::set('confirm_message', $flash_message);
             header("Location: index.php");
             exit();
         } else {

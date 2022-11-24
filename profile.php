@@ -2,13 +2,13 @@
     session_start();
     require_once 'src/App/Helpers/FlashMessage.php';
 
-    $logged = FlashMessage::get('logged');
-    if(!$logged) {
+    if(!isset($_SESSION["logged"])) {
         header("Location: index.php");
         exit();
     } else {
-        $user = FlashMessage::get('user');
+        $user = $_SESSION["user"];
         $name = $user["name"];
         $username = $user["username"];
+        var_dump($user);
         require 'views/profile.view.php';
     }

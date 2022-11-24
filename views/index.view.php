@@ -78,9 +78,14 @@
             <?php endif; ?>
             <!--Missatge de tancament de sessió-->
             <div>
-                <?php if(!empty($_SESSION["message"])): ?>
-                    <p><?= $_SESSION["message"] ?></p>
-                    <?php unset($_SESSION["message"]);?>
+                <?php if(!empty($logout_message)): ?>
+                    <p><?=$logout_message?></p>
+                <?php endif; ?>
+            </div>
+            <!--Missatges de confirmació-->
+            <div>
+                <?php if(!empty($confirm_message)): ?>
+                    <p><?=$confirm_message?></p>
                 <?php endif; ?>
             </div>
             <!--Tuits-->

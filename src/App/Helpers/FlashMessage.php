@@ -24,15 +24,9 @@
         public static function get(string $key, null|array $defaultValue = []):mixed
         {
             # Retorna el valor de la variable de sessió
-            if(!empty($_SESSION[self::SESSION_KEY][$key])) {
-                return($_SESSION[self::SESSION_KEY][$key]);
-            }
-
-            # Retorna un array buit per defecte
-            self::set($key, $defaultValue);
-            return($_SESSION[self::SESSION_KEY][$key]);
-
-            # self::unset($_SESSION[self::SESSION_KEY][$key]);
+            $key_value = $_SESSION[self::SESSION_KEY][$key] ?? $defaultValue;
+            self::unset($key);
+            return $key_value;
         }
 
         /**

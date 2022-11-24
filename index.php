@@ -9,6 +9,8 @@
     session_start();
 
     $info = FlashMessage::get('info');
+    $confirm_message = FlashMessage::get('confirm_message');
+    $logout_message = FlashMessage::get('message');
     $search_errors = FlashMessage::get('search_errors');
 
     //Connexió a la base de dades

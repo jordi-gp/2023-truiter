@@ -6,7 +6,7 @@
         # Connexió a la base de dades
         require_once 'dbConnection.php';
 
-        $userInf = FlashMessage::get('user');
+        $userInf = $_SESSION["user"];
         $errors = [];
         $new_name = "";
 
@@ -20,12 +20,16 @@
             $errors[] = "El nom no pot estar en blanc!";
         }
 
+        # Comprovació de que el nom no es igual
+        if($new_name === $_POST["actual_name"])
+            $errors[] = "El nom a actualitzar es el mateix que tens ja";
+
         if(empty($errors)) {
             $stmt = $pdo->prepare("UPDATE user SET name=:new_name WHERE id=:user_id");
             $stmt->bindValue('new_name', $new_name);
             $stmt->bindValue('user_id', $userInf["id"]);
             $stmt->execute();
-            $userInf["name"] = $new_name;
+            $_SESSION["user"]["name"] = $new_name;
 
             # Eliminació d'errors del formulari
             unset($_SESSION["errors"]);

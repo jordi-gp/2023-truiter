@@ -2,13 +2,12 @@
     session_start();
     require_once 'src/App/Helpers/FlashMessage.php';
 
-    $logged = FlashMessage::get('logged');
-    if(!$logged) {
+    if(!isset($_SESSION["logged"])) {
         header("Location: index.php");
         exit();
     } else {
         # Informació de l'usuari
-        $userInfo = FlashMessage::get('user');
+        $userInfo = $_SESSION["user"];
 
         # Errors del formulari
         $errors = FlashMessage::get('update_name_error');

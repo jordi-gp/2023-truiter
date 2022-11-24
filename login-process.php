@@ -53,9 +53,9 @@
             FlashMessage::set("username", $info);
             header("Location: login.php");
         } else {
-            FlashMessage::set('logged', true);
+            $_SESSION["logged"] = true;
             FlashMessage::set('info', $info);
-            FlashMessage::set('user', $user);
+            $_SESSION["user"] = $user;
             unset($_SESSION["errors"]);
             header("Location: index.php");
         }

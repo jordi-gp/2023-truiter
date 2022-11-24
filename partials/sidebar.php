@@ -13,10 +13,9 @@
 </nav>
 <nav>
     <ul class="nav flex-column">
-        <?php $user_inf = FlashMessage::get('user'); ?>
-        <?php if($user_inf): ?>
+        <?php if(!empty($_SESSION["user"])): ?>
             <li class="nav-item"><a class="nav-link" href="logout.php"><i class="bi bi-person-fill"></i>
-                    @<?= $user_inf["username"];?></a></li>
+                    @<?= $_SESSION["user"]["username"];?></a></li>
         <?php else: ?>
             <li class="nav-item"><a class="nav-link" href="login.php"><i class="bi bi-box-arrow-in-right"></i> Iniciar
                     sessió</a></li>

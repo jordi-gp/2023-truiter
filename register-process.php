@@ -84,9 +84,9 @@
             $stmt->execute();
 
             $user_info["id"] = $pdo->lastInsertId();
-            FlashMessage::set("logged", true);
+            $_SESSION["logged"] = true;
             FlashMessage::set("info", $user_info);
-            FlashMessage::set("user", $user_info);
+            $_SESSION["user"] = $user_info;
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);
             header("Location: index.php");

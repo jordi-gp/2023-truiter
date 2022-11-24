@@ -9,8 +9,7 @@
     session_start();
 
     //Si no està loggejat l'usuari no pot accedir
-    $logged = FlashMessage::get('logged');
-    if(!$logged) {
+    if(!isset($_SESSION["logged"])) {
         header("Location: index.php");
         exit();
     } else {
@@ -18,7 +17,7 @@
         $errors = FlashMessage::get('new_tweet_errors');
 
         # Informació de l'usuari
-        $info = FlashMessage::get('info');
+        $info = $_SESSION["user"];
     }
 
     require 'views/tweet-new.view.php';

@@ -1,5 +1,7 @@
 <?php
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        require_once 'src/App/Helpers/FlashMessage.php';
+
         session_start();
 
         //Connexió a la base de dades
@@ -32,8 +34,7 @@
 
         //Missatge flash de confirmació per a l'usuari
         $flash_message = "L'usuari s'ha eliminat de forma correcta!";
-        $_SESSION["message"] = $flash_message;
-
+        FlashMessage::set('confirm_message', $flash_message);
         unset($_SESSION["user"]);
         unset($_SESSION["logged"]);
         header("Location: index.php");
