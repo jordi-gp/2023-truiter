@@ -1,5 +1,8 @@
 <?php declare(strict_types=1);
     session_start();
+
+    use App\Helpers\Validator;
+
     require_once 'dbConnection.php';
     require_once 'src/App/Helpers/FlashMessage.php';
 
@@ -14,59 +17,52 @@
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        //Validació del formulari
+        # Validació del formulari
         if(!empty($_POST["name"])) {
-            if(strlen($_POST["name"]) > 100) {
-                $register_errors[] = "El nom no pot contindre més de 100 caràcters";
-            } else {
-                $user_info["name"] = filter_var($_POST["name"], FILTER_SANITIZE_SPECIAL_CHARS);
+            try {
+                Validator::lengthBetween($_POST["name"], 0, 100);
+            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+                echo $err->getMessage();
             }
+            $user_info["name"] = filter_var($_POST["name"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
-            $register_errors[] = "S'ha d'introduïr un nom!";
+            $register_errors[] = "S'ha d'indicar un nom";
         }
 
         if(!empty($_POST["username"])) {
-            if(strlen($_POST["username"]) > 100) {
-                $register_errors[] = "El nom d'usuari no pot superar els 100 caràcters";
-            } else {
-                $stmt = $pdo->prepare("SELECT username FROM user WHERE username=:username");
-                $stmt->bindValue(':username', $_POST["username"]);
-                $stmt->execute();
-
-                $registered_user = $stmt->fetch(PDO::FETCH_ASSOC);
-                if($registered_user) {
-                    $register_errors[] = "El nom d'usuari proporcionat ja es troba registrat";
-                } else {
-                    $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
-                }
+            try {
+                Validator::lengthBetween($_POST["username"], 0, 100);
+            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+                echo $err->getMessage();
             }
+            $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
-            $register_errors[] = "S'ha de proporcionar un nom d'usuari";
+            $register_errors[] = "S'ha d'indicar un nom d'usuari";
         }
 
         if(!empty($_POST["password"])) {
-            if(strlen($_POST["password"]) > 100) {
-                $register_errors[] = "La contrasenya no pot contindre més de 100 caràcters";
-            } else {
-                $user_info["password"] = $_POST["password"];
+            try {
+                Validator::lengthBetween($_POST["password"], 0, 100);
+            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+                echo $err->getMessage();
             }
+            $user_info["password"] = $_POST["password"];
         } else {
-            $register_errors[] = "S'ha d'introduïr una contrasenya";
+            $register_errors[] = "S'ha d'indicar una contrasenya";
         }
 
         if(!empty($_POST["repeated_password"])) {
-            if(strlen($_POST["repeated_password"]) > 100) {
-                $register_errors[] = "La contrasenya no pot contindre més de 100 caràcters";
-            } else if($_POST["password"] != $_POST["repeated_password"]) {
-                $register_errors[] = "Les contrasenyes han de coincidir";
-            } else {
-                $user_info["repeated_password"] = $_POST["repeated_password"];
+            try {
+                Validator::lengthBetween($_POST["repeated_password"], 0, 100);
+            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+                echo $err->getMessage();
             }
+            $user_info["repeated_password"] = $_POST["repeated_password"];
         } else {
-            $register_errors[] = "S'ha de tornar a introduïr la contrasenya";
+            $register_errors[] = "S'ha de repetir la mateixa contrasenya";
         }
 
-        //Comprovació de la validació
+        # Comprovació de la validació
         if(!empty($register_errors)) {
             FlashMessage::set("register_errors", $register_errors);
             FlashMessage::set("form", $user_info);

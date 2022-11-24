@@ -9,6 +9,5 @@
         $user = $_SESSION["user"];
         $name = $user["name"];
         $username = $user["username"];
-        var_dump($user);
         require 'views/profile.view.php';
     }
