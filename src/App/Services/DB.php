@@ -1,5 +1,5 @@
 <?php
-    namespace App;
+    namespace App\Services;
     
     # Classe per instanciar la base de dades
     class DB

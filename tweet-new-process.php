@@ -26,14 +26,14 @@
             Validator::lengthBetween($_POST["tuitValue"], 0, 250);
             $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
         } catch (InvalidArgumentException $err) {
-            echo $err->getMessage();
+            $errors[] = $err->getMessage();
         }
 
-
         # TODO: mirar el tema dels permisos
-        $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat,MAX_SIZE);
-        var_dump($handle_image->handle($imgDir));
-
+        if(!empty($_FILES)) {
+            $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat,MAX_SIZE);
+            var_dump($handle_image->handle($imgDir));
+        }
 
         # Gestió a l'hora d'enviar el formulari
         if(!empty($errors)) {

@@ -2,7 +2,7 @@
     session_start();
     require 'src/App/Helpers/FlashMessage.php';
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        //Connexió a la base de dades
+        # Connexió a la base de dades
         require_once "dbConnection.php";
 
         $value_search = "";
