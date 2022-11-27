@@ -3,6 +3,7 @@
 
     use App\Helpers\Validator;
 
+    require_once 'autoload.php';
     require_once 'dbConnection.php';
     require_once 'src/App/Helpers/FlashMessage.php';
 
@@ -22,7 +23,7 @@
             try {
                 Validator::lengthBetween($_POST["name"], 0, 100);
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                echo $err->getMessage();
+                $register_errors[] = $err->getMessage();
             }
             $user_info["name"] = filter_var($_POST["name"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
@@ -33,7 +34,7 @@
             try {
                 Validator::lengthBetween($_POST["username"], 0, 100);
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                echo $err->getMessage();
+                $register_errors[] = $err->getMessage();
             }
             $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
@@ -44,7 +45,7 @@
             try {
                 Validator::lengthBetween($_POST["password"], 0, 100);
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                echo $err->getMessage();
+                $register_errors[] = $err->getMessage();
             }
             $user_info["password"] = $_POST["password"];
         } else {
@@ -55,7 +56,7 @@
             try {
                 Validator::lengthBetween($_POST["repeated_password"], 0, 100);
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                echo $err->getMessage();
+                $register_errors[] = $err->getMessage();
             }
             $user_info["repeated_password"] = $_POST["repeated_password"];
         } else {

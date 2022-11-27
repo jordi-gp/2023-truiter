@@ -5,5 +5,3 @@ spl_autoload_register(function($className) {
     $ruta = str_replace("\\", "/", $ruta);
     require_once $ruta;
 } );
-
-

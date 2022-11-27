@@ -12,9 +12,8 @@ class User
     private DateTime $createdAt;
     private bool $verified;
 
-    public function __construct(int $id, string $name, string $username)
+    public function __construct(string $name, string $username)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->username = $username;
         $this->createdAt = new DateTime();
