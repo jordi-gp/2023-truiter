@@ -6,8 +6,13 @@
     use App\Registry;
     use App\Services\DB;
     use App\Services\TweetRepository;
+    $db = "truiter";
+    $db_username = "root";
+    $db_password = "";
+    $db_host = "localhost";
 
-    $db = new DB("truiter", "root", "", "localhost");
+
+    $db = new DB($db, $db_username, $db_password, $db_host);
     Registry::set(Registry::DB, $db);
 
     $tweetRepository = new TweetRepository();
