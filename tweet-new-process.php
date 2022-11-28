@@ -3,10 +3,13 @@
 
     require_once 'autoload.php';
     require_once 'dbConnection.php';
-    require_once 'src/App/Helpers/FlashMessage.php';
 
+    use App\Helpers\FlashMessage;
     use App\Helpers\Validator;
     use App\Helpers\UploadedFileHandler;
+    use App\Helpers\Exceptions\InvalidArgumentException;
+    use App\Helpers\Exceptions\NoUploadedFileException;
+    use App\Helpers\Exceptions\UploadedFileException;
 
     session_start();
 
@@ -31,8 +34,16 @@
 
         # TODO: mirar el tema dels permisos
         if(!empty($_FILES)) {
-            $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat,MAX_SIZE);
-            var_dump($handle_image->handle($imgDir));
+            try {
+                $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat, MAX_SIZE);
+                var_dump($handle_image->handle($imgDir));
+            } catch (NoUploadedFileException $e) {
+            } catch (UploadedFileException $e){
+                $errors[] = $e->getMessage();
+            } catch (Exception $exception) {
+                $errors[] = $exception->getMessage();
+            }
+
         }
 
         # Gestió a l'hora d'enviar el formulari

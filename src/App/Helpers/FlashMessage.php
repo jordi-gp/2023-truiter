@@ -1,4 +1,6 @@
 <?php
+
+    namespace App\Helpers;
     /**
     * Class FlashMessage
     * Aquesta classe llig i escriu directament en una variable de sessió
