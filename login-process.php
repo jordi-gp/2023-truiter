@@ -1,17 +1,15 @@
 <?php declare(strict_types=1);
     require_once 'bootstrap.php';
     use App\Helpers\FlashMessage;
-use App\Helpers\Validator;
-use App\Registry;
+    use App\Helpers\Validator;
+    use App\Registry;
     use App\Services\UserRepository;
 
-    $errors = [];
-    $info = [
-        "username" => "",
-        "password" => ""
-    ];
-
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+        $errors = [];
+
         try {
             $db = Registry::get(Registry::DB);
             $userRepository = Registry::get(UserRepository::class);
@@ -25,41 +23,16 @@ use App\Registry;
             echo $e->getline()." ".$e->getMessage();
         }
 
-        //Validació del formulari
-        if(!empty($_POST["username"])) {
-            try {
-                $validator->lengthBetween($_POST["username"], 0, 100);
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
-                $errors[] = $e->getMessage();
-            }
-
-            $info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
-        } else {
-            $errors[] = "El camp d'usuari no pot estar buit";
-        }
-
-        if(!empty($_POST["password"])) {
-            try {
-                $validator->lengthBetween($_POST["password"], 0, 100);
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
-                $errors[] = $e->getMessage();
-            }
-
-            $info["password"] = filter_var($_POST["password"], FILTER_SANITIZE_SPECIAL_CHARS);
-        } else {
-            $errors[] = "S'ha d'introduïr una contrasenya";
+        # Validació del formulari
+        if(empty($username) || empty($password)) {
+            $errors[] = "El nom d'usuari o la contrasenya no son correctes";
         }
 
         try {
-            $user = $userRepository->findByUsername($info["username"]);
-
+            $user = $userRepository->findByUsername($username);
             # Comprovació de que l'usuari existeix a la base de dades
             if(!$user) {
-                $errors[] = "L'usuari indicat no es troba registrat!";
-            } else {
-                if(!password_verify($info["password"], $user["password"])) {
-                    $errors[] = "La contrasenya indicada no es correcta!";
-                }
+                $errors[] = "El nom d'usuari o la contrasenya no son correctes";
             }
         } catch (PDOException $err) {
             echo $err->getMessage();
@@ -67,11 +40,11 @@ use App\Registry;
 
         if(!empty($errors)) {
             FlashMessage::set("login_errors", $errors);
-            FlashMessage::set("username", $info);
+            FlashMessage::set("username", $username);
             header("Location: login.php");
         } else {
             $_SESSION["logged"] = true;
-            FlashMessage::set('info', $info);
+            FlashMessage::set('info', $username);
             $_SESSION["user"] = $user;
             unset($_SESSION["errors"]);
             header("Location: index.php");

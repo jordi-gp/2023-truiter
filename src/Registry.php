@@ -2,9 +2,9 @@
 
     namespace App;
     use App\Helpers\Exceptions\InvalidArgumentException;
-    use App\Helpers\Validator;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
+    use App\Helpers\Validator;
 
     class Registry
     {

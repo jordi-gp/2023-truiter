@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
-
     session_start();
+
     require_once 'vendor/autoload.php';
 
     use App\Helpers\Validator;
@@ -11,22 +11,22 @@
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
 
-    use Monolog\Level;
+    /*use Monolog\Level;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
 
     $log = new Logger('App');
     $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
-    Registry::set('logger', $log);
+    Registry::set('logger', $log);*/
 
     # DB credentials info
-    $db = "truiter";
+    $db_name = "truiter";
     $db_username = "root";
     $db_password = "";
     $db_host = "localhost";
 
     # Registre dedicata la base de dades
-    $db = new DB($db, $db_username, $db_password, $db_host);
+    $db = new DB($db_name, $db_username, $db_password, $db_host);
     try {
         Registry::set(Registry::DB, $db);
     } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
