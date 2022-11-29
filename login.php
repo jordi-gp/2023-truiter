@@ -4,7 +4,7 @@
     require_once 'src/App/Helpers/FlashMessage.php';
 
     # En cas de no haver valor retorna un array buit per defecte
-    $errors = FlashMessage::get('login_errors');
-    $info = FlashMessage::get('username');
+    $errors = \App\Helpers\FlashMessage::get('login_errors');
+    $info = App\Helpers\FlashMessage::get('username');
 
     require 'views/login.view.php';

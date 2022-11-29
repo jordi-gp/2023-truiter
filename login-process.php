@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
-    session_start();
-    require_once 'dbConnection.php';
-    require_once 'src/App/Helpers/FlashMessage.php';
+    require_once 'bootstrap.php';
+    use App\Helpers\FlashMessage;
+    use App\Registry;
+    use App\Services\UserRepository;
 
     $errors = [];
     $info = [
@@ -10,6 +11,16 @@
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        try {
+            $db = Registry::get(Registry::DB);
+            $userRepository = Registry::get(UserRepository::class);
+        } catch (PDOException $err) {
+            echo $err->getMessage()." ".$err->getLine();
+            //die($err->getLine().": ".$err->getMessage());
+        }
+
+
+
         //Validació del formulari
         if(!empty($_POST["username"])) {
             if(strlen($_POST["username"]) > 100) {
@@ -32,18 +43,15 @@
         }
 
         try {
-            $stmt = $pdo->prepare("SELECT * FROM user WHERE username=:username");
-            $stmt->bindValue(':username', $info["username"]);
-            $stmt->execute();
+            $user = $userRepository->findUsername($info["username"]);
 
-            //Comprovació de que l'usuari existeix a la base de dades
-            if($stmt->rowCount() > 0) {
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            # Comprovació de que l'usuari existeix a la base de dades
+            if(!$user) {
+                $errors[] = "L'usuari indicat no es troba registrat!";
+            } else {
                 if(!password_verify($info["password"], $user["password"])) {
                     $errors[] = "La contrasenya indicada no es correcta!";
                 }
-            } else {
-                $errors[] = "L'usuari indicat no es troba registrat!";
             }
         } catch (PDOException $err) {
             echo $err->getMessage();

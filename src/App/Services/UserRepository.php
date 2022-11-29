@@ -15,22 +15,28 @@
             $this->db = Registry::get(Registry::DB);
         }
 
-        #TODO: Funció per obtindre tots els usuaris
-        public function findUsers():array
+        # Funció per trobar tots els usuaris
+        public function findAll():array
         {
             $users = [];
 
             # Obtenció dels usuaris de la base de dades
-            $stmt = $this->db->run("SELECT * FROM users");
+            $stmt = $this->db->run("SELECT * FROM user");
 
             # Afegiment dels usuaris a l'array
             while($user = $stmt->fetch())
             {
                 $userObj = new User($user["name"], $user["username"]);
-
-                #$users[] =
+                $users[] = $userObj;
             }
 
             return $users;
+        }
+
+        # Funció per trobar un usuari amb un username concret
+        public function findUsername(string $username):array|bool
+        {
+            $stmt = $this->db->run("SELECT * FROM user WHERE username=:username", ["username"=>$username]);
+            return $stmt->fetch();
         }
     }

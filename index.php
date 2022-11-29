@@ -1,16 +1,22 @@
 <?php
     use App\Registry;
+    use App\Services\TweetRepository;
+    use App\Services\UserRepository;
 
     require_once 'bootstrap.php';
 
     try {
         $db = Registry::get(Registry::DB);
-        $tweetRepository = Registry::get("TweetRepository");
+        $tweetRepository = Registry::get(TweetRepository::class);
+        $userRepository = Registry::get(UserRepository::class);
         $tweets = $tweetRepository->findAll();
+        $users = $userRepository->findAll();
 
-        var_dump($tweets);
+        $numOfTweets = count($tweets);
+        $numOfUsers = count($users);
+
     } catch (PDOException $err) {
         die($err->getLine().": ".$err->getMessage());
     }
 
-    # require 'views/index.view.php';
+    require 'views/index.view.php';

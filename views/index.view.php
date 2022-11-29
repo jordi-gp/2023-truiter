@@ -31,7 +31,7 @@
         <!--Buscador de tweets-->
         <div class="offset-2 col-6 border-start border-end border-1 p-4">
             <h1>Welcome to Truiter</h1>
-            <p><?=$numOfUsers?> users, <?=$numOfTuits?> tuits</p>
+            <p><?=$numOfUsers?> users, <?=$numOfTweets?> tuits</p>
             <!--Usuaris-->
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item">
@@ -43,7 +43,7 @@
                     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
                         <?php foreach ($users as $user) : ?>
                             <div class="accordion-body">
-                                <?= $user["name"]; ?> (@<?= $user["username"]; ?>) - Creation date: <?= $user["created_at"]; ?>
+                                <?= $user->getName(); ?> (@<?= $user->getUsername(); ?>) - Creation date: <?= $user->getCreatedAt()->format("Y-m-d"); ?>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -92,12 +92,19 @@
             <h2>Tweets</h2>
             <?php foreach ($tweets as $tweet) : ?>
                 <div class="accordion-body">
-                    <p><?= $tweet["name"]; ?> (@<?= $tweet["username"]; ?>) - Creation
-                        date: <?= $tweet["created_at"]; ?></p>
-                    <blockquote><?=$tweet["text"];?></blockquote>
-                    <p>Like counter: <?= $tweet["like_count"] ?></p>
-                    <?php if ($tweet["url"] != null) : ?>
-                        <img id="imatge" src="<?=$tweet["url"]?>" alt="<?=$tweet["alt_text"]?>" />
+                    <p><?= $tweet->getAuthor()->getName(); ?> (@<?= $tweet->getAuthor()->getUsername(); ?>) - Creation
+                        date: <?= $tweet->getCreatedAt()->format("Y-m-d"); ?></p>
+                    <blockquote><?=$tweet->getText();?></blockquote>
+                    <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
+                    <?php if(count($tweet->getAttachments()) > 0) : ?>
+                        <ul>
+                            <?php foreach($tweet->getAttachments() as $attachment): ?>
+                                <li>
+                                    <?=$attachment->getAltText();?>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <!--<img id="imatge" src="<?php #$tweet["url"]?>" alt="<?php #$tweet["alt_text"]?>" />-->
                     <?php endif ;?>
                     <hr/>
                 </div>
