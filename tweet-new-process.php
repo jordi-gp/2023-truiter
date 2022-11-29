@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
     const MAX_SIZE = 1024 * 1024 * 3;
 
-    require_once 'autoload.php';
+    require_once 'vendor/autoload.php';
     require_once 'dbConnection.php';
 
     use App\Helpers\FlashMessage;
@@ -10,6 +10,7 @@
     use App\Helpers\Exceptions\InvalidArgumentException;
     use App\Helpers\Exceptions\NoUploadedFileException;
     use App\Helpers\Exceptions\UploadedFileException;
+    use App\Registry;
 
     session_start();
 
@@ -24,15 +25,16 @@
     $validFormat[] = "image/png";
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        $validator = Registry::get(Validator::class);
+
         # Validació del tuit
         try {
-            Validator::lengthBetween($_POST["tuitValue"], 0, 250);
+            $validator->lengthBetween($_POST["tuitValue"], 0, 250);
             $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
         } catch (InvalidArgumentException $err) {
             $errors[] = $err->getMessage();
         }
 
-        # TODO: mirar el tema dels permisos
         if(!empty($_FILES)) {
             try {
                 $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat, MAX_SIZE);

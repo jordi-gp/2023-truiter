@@ -2,6 +2,7 @@
 
     namespace App;
     use App\Helpers\Exceptions\InvalidArgumentException;
+    use App\Helpers\Validator;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
 
@@ -21,7 +22,9 @@
         private static array $allowedKeys = [
             self::DB,
             TweetRepository::class,
-            UserRepository::class
+            UserRepository::class,
+            Validator::class,
+            "logger"
         ];
 
         final public static function set(string $key, mixed $value)

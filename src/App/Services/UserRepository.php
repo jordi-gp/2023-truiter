@@ -33,8 +33,15 @@
             return $users;
         }
 
-        # Funció per trobar un usuari amb un username concret
-        public function findUsername(string $username):array|bool
+        # Funció per trobar un usuari per el seu id
+        public function findById(int $id):array|bool
+        {
+            $stmt = $this->db->run("SELECT * FROM user WHERE id=:id", ["id"=>$id]);
+            return $stmt->fetch();
+        }
+
+        # Funció per trobar un usuari per el seu nom d'usuari
+        public function findByUsername(string $username):array|bool
         {
             $stmt = $this->db->run("SELECT * FROM user WHERE username=:username", ["username"=>$username]);
             return $stmt->fetch();

@@ -15,7 +15,6 @@
             } else if(strlen($value) >= $max) {
                 throw new InvalidArgumentException("El camp no pot contindre més de ".$max." caracters");
             }
-
             return true;
         }
     }

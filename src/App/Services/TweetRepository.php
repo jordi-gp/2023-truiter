@@ -51,4 +51,10 @@
             }
             return $tweets;
         }
+
+        # Funció per inserir un nou tweet
+        function addTweet()
+        {
+
+        }
     }

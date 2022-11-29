@@ -2,6 +2,7 @@
     use App\Registry;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
+    use App\Helpers\FlashMessage;
 
     require_once 'bootstrap.php';
 
