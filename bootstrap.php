@@ -11,13 +11,17 @@
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
 
-    /*use Monolog\Level;
+    use Monolog\Level;
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
 
     $log = new Logger('App');
     $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
-    Registry::set('logger', $log);*/
+    try {
+        Registry::set('logger', $log);
+    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+        echo $e->getMessage();
+    }
 
     # DB credentials info
     $db_name = "truiter";
@@ -49,7 +53,7 @@
         echo $e->getMessage();
     }
 
-    #Registre per a la classe validator
+    # Registre per a la classe validator
     $validator = new Validator();
     try {
         Registry::set(Validator::class, $validator);

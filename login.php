@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
-    require_once "bootstrap.php";
+    use App\Helpers\FlashMessage;
+    require_once 'bootstrap.php';
     require_once 'vendor/autoload.php';
 
     # En cas de no haver valor retorna un array buit per defecte

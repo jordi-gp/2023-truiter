@@ -2,8 +2,6 @@
     use App\Registry;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
-    use App\Helpers\FlashMessage;
-
     require_once 'bootstrap.php';
 
     try {
@@ -16,7 +14,7 @@
         $numOfTweets = count($tweets);
         $numOfUsers = count($users);
 
-    } catch (PDOException $err) {
+    } catch (Exception $err) {
         die($err->getLine().": ".$err->getMessage());
     }
 

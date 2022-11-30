@@ -1,4 +1,4 @@
-<?php require_once 'src/App/Helpers/FlashMessage.php'; ?>
+<?php require_once 'src/Helpers/FlashMessage.php'; ?>
 <nav class="navbar navbar-light flex-column align-items-start">
     <a class="ms-3 navbar-brand" href="#">
         <img src="assets/eggcracked_2.svg" alt="" width="50" height="50">
