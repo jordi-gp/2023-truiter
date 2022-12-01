@@ -44,7 +44,6 @@
         # Funció per trobar un usuari pel seu nom d'usuari
         public function findByUsername(string $username):array|bool
         {
-            $username = $user->getUsername();
             $stmt = $this->db->run("SELECT * FROM user WHERE username=:username", ["username"=>$username]);
             return $stmt->fetch();
         }

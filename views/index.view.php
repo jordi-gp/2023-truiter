@@ -75,7 +75,7 @@
             <!--Missatge de benvinguda-->
             <?php if(!empty($info)): ?>
                 <div class="alert alert-success" role="alert">
-                    Benvingut @<?=$info["username"]?>
+                    Benvingut @<?=$info?>
                 </div>
             <?php endif; ?>
             <!--Missatge de tancament de sessió-->

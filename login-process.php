@@ -26,16 +26,16 @@
         # Validació del formulari
         if(empty($username) || empty($password)) {
             $errors[] = "El nom d'usuari o la contrasenya no son correctes";
-        }
-
-        try {
-            $user = $userRepository->findByUsername($username);
-            # Comprovació que l'usuari existeix a la base de dades
-            if(!$user) {
-                $errors[] = "El nom d'usuari o la contrasenya no son correctes";
+        } else {
+            try {
+                $user = $userRepository->findByUsername($username);
+                # Comprovació que l'usuari existeix a la base de dades
+                if(!$user) {
+                    $errors[] = "El nom d'usuari o la contrasenya no son correctes";
+                }
+            } catch (PDOException $err) {
+                echo $err->getMessage();
             }
-        } catch (PDOException $err) {
-            echo $err->getMessage();
         }
 
         if(!empty($errors)) {

@@ -20,12 +20,14 @@ use App\User;
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        # Servici de connexió a la base de dades
         try {
             $db = Registry::get(Registry::DB);
         } catch (PDOException $err) {
             die($err->getLine().": ".$err->getMessage());
         }
 
+        # Obtenció dels repositoris utilitzats
         try {
             $userRepository = Registry::get(UserRepository::class);
             $validator = Registry::get(Validator::class);
@@ -78,6 +80,12 @@ use App\User;
             $register_errors[] = "Nom o contrasenya incorrectes";
         }
 
+        # Comprovació de que l'usuari indicat es troba registrat
+        $registered_user = $userRepository->findByUsername($user_info["username"]);
+        if($registered_user) {
+            $register_errors[] = "Usuari o contrasenya incorrectes";
+        }
+
         # Comprovació de la validació
         if(!empty($register_errors)) {
             FlashMessage::set("register_errors", $register_errors);
@@ -88,10 +96,6 @@ use App\User;
             $hashed_password = password_hash($user_info["repeated_password"], PASSWORD_DEFAULT);
 
             $user_to_add = new User($user_info["name"], $user_info["username"]);
-            $registered_user = $userRepository->findByUsername($user_info["username"]);
-            if($registered_user) {
-                $register_errors[] = "Usuari o contrasenya incorrectes";
-            }
             $user_to_add->setPassword($hashed_password);
             $user_to_add->setCreatedAt(new DateTime());
 
