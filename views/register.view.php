@@ -35,9 +35,9 @@
                 <input id="repeated_password" type="password" class="form-control mb-2" <?php if(!empty($info_form["repeated_password"])):?>value="<?=$info_form["repeated_password"]?>"<?php endif;?> name="repeated_password">
                 <!--Mostrat d'errors-->
                 <?php if(!empty($register_error)): ?>
-                    <?php foreach($register_error as $error): ?>
-                        <p class="error"><?=$error?></p>
-                    <?php endforeach; ?>
+                    <div class="alert alert-danger mt-4" role="alert">
+                        <?=$register_error[0]?>
+                    </div>
                 <?php endif; ?>
                 <button class="btn btn-primary mt-3">Iniciar sessió</button>
             </form>

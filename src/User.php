@@ -7,8 +7,10 @@ use Serializable;
 
 class User
 {
+    private int $id;
     private string $name;
     private string $username;
+    private string $password;
     private DateTime $createdAt;
     private bool $verified;
 
@@ -16,7 +18,6 @@ class User
     {
         $this->name = $name;
         $this->username = $username;
-        $this->createdAt = new DateTime();
     }
 
     public function setId(int $id):void
@@ -32,7 +33,7 @@ class User
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName():string
     {
         return $this->name;
     }
@@ -40,7 +41,7 @@ class User
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(string $name):void
     {
         $this->name = $name;
     }
@@ -48,7 +49,7 @@ class User
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getUsername():string
     {
         return $this->username;
     }
@@ -56,15 +57,25 @@ class User
     /**
      * @param string $username
      */
-    public function setUsername(string $username): void
+    public function setUsername(string $username):void
     {
         $this->username = $username;
+    }
+
+    public function setPassword(string $password):void
+    {
+        $this->password = $password;
+    }
+
+    public function getPassword():string
+    {
+        return $this->password;
     }
 
     /**
      * @return DateTime
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt():DateTime
     {
         return $this->createdAt;
     }
@@ -72,7 +83,7 @@ class User
     /**
      * @param DateTime $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt):void
     {
         $this->createdAt = $createdAt;
     }
@@ -80,7 +91,7 @@ class User
     /**
      * @return bool
      */
-    public function isVerified(): bool
+    public function isVerified():bool
     {
         return $this->verified;
     }
@@ -88,7 +99,7 @@ class User
     /**
      * @param bool $verified
      */
-    public function setVerified(bool $verified): void
+    public function setVerified(bool $verified):void
     {
         $this->verified = $verified;
     }

@@ -12,15 +12,15 @@
 
         try {
             $db = Registry::get(Registry::DB);
-            $userRepository = Registry::get(UserRepository::class);
         } catch (PDOException $err) {
             die($err->getLine().": ".$err->getMessage());
         }
 
         try {
+            $userRepository = Registry::get(UserRepository::class);
             $validator = Registry::get(Validator::class);
-        } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
-            echo $e->getline()." ".$e->getMessage();
+        } catch (Exception $e) {
+            die($e->getLine().": ".$e->getMessage());
         }
 
         # Validació del formulari
@@ -30,7 +30,7 @@
 
         try {
             $user = $userRepository->findByUsername($username);
-            # Comprovació de que l'usuari existeix a la base de dades
+            # Comprovació que l'usuari existeix a la base de dades
             if(!$user) {
                 $errors[] = "El nom d'usuari o la contrasenya no son correctes";
             }

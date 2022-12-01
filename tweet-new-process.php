@@ -2,7 +2,6 @@
     const MAX_SIZE = 1024 * 1024 * 3;
 
     require_once 'vendor/autoload.php';
-    require_once 'dbConnection.php';
 
     use App\Helpers\FlashMessage;
     use App\Helpers\Validator;

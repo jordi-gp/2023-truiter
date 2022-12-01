@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
-    session_start();
+    require_once 'bootstrap.php';
 
+    use App\Registry;
     use App\Helpers\Validator;
+    use App\Helpers\FlashMessage;
+    use App\Services\UserRepository;
+use App\User;
 
     require_once 'vendor/autoload.php';
-    require_once 'dbConnection.php';
-    require_once 'src/App/Helpers/FlashMessage.php';
 
     $register_errors = [];
     $user_info = [
@@ -18,16 +20,29 @@
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        try {
+            $db = Registry::get(Registry::DB);
+        } catch (PDOException $err) {
+            die($err->getLine().": ".$err->getMessage());
+        }
+
+        try {
+            $userRepository = Registry::get(UserRepository::class);
+            $validator = Registry::get(Validator::class);
+        } catch (Exception $e) {
+            die($e->getLine().": ".$e->getMessage());
+        }
+
         # Validació del formulari
         if(!empty($_POST["name"])) {
             try {
-                Validator::lengthBetween($_POST["name"], 0, 100);
+                Validator::lengthBetween($_POST["name"], 0, 100, "Nom o contrasenya incorrectes");
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
                 $register_errors[] = $err->getMessage();
             }
             $user_info["name"] = filter_var($_POST["name"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
-            $register_errors[] = "S'ha d'indicar un nom";
+            $register_errors[] = "Nom o contrasenya incorrectes";
         }
 
         if(!empty($_POST["username"])) {
@@ -38,18 +53,18 @@
             }
             $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
-            $register_errors[] = "S'ha d'indicar un nom d'usuari";
+            $register_errors[] = "Nom o contrasenya incorrectes";
         }
 
         if(!empty($_POST["password"])) {
             try {
-                Validator::lengthBetween($_POST["password"], 0, 100);
+                Validator::lengthBetween($_POST["password"], 0, 100, "Nom o contrasenya incorrectes");
             } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
                 $register_errors[] = $err->getMessage();
             }
             $user_info["password"] = $_POST["password"];
         } else {
-            $register_errors[] = "S'ha d'indicar una contrasenya";
+            $register_errors[] = "Nom o contrasenya incorrectes";
         }
 
         if(!empty($_POST["repeated_password"])) {
@@ -60,32 +75,36 @@
             }
             $user_info["repeated_password"] = $_POST["repeated_password"];
         } else {
-            $register_errors[] = "S'ha de repetir la mateixa contrasenya";
+            $register_errors[] = "Nom o contrasenya incorrectes";
         }
 
         # Comprovació de la validació
         if(!empty($register_errors)) {
             FlashMessage::set("register_errors", $register_errors);
             FlashMessage::set("form", $user_info);
+
             header("Location: register.php");
         } else {
-            $verified = 0;
             $hashed_password = password_hash($user_info["repeated_password"], PASSWORD_DEFAULT);
-            $created_at = (new DateTime())->format("Y-m-d");
-            $stmt = $pdo->prepare("INSERT INTO user(name, username, password, created_at, verified) VALUES (:name, :username, :password, :created_at, :verified)");
-            $stmt->bindValue('name', $user_info["name"]);
-            $stmt->bindValue('username', $user_info["username"]);
-            $stmt->bindValue('password', $hashed_password);
-            $stmt->bindValue('created_at', $created_at);
-            $stmt->bindValue('verified', $verified);
-            $stmt->execute();
 
-            $user_info["id"] = $pdo->lastInsertId();
+            $user_to_add = new User($user_info["name"], $user_info["username"]);
+            $registered_user = $userRepository->findByUsername($user_info["username"]);
+            if($registered_user) {
+                $register_errors[] = "Usuari o contrasenya incorrectes";
+            }
+            $user_to_add->setPassword($hashed_password);
+            $user_to_add->setCreatedAt(new DateTime());
+
+            $userRepository->save($user_to_add);
+
             $_SESSION["logged"] = true;
-            FlashMessage::set("info", $user_info);
             $_SESSION["user"] = $user_info;
+
+            FlashMessage::set("info", $user_info);
+
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);
+
             header("Location: index.php");
         }
         exit();

@@ -74,18 +74,24 @@
             <?php endif; ?>
             <!--Missatge de benvinguda-->
             <?php if(!empty($info)): ?>
-                <p>Benvingut @<?= $info["username"]?></p>
+                <div class="alert alert-success" role="alert">
+                    Benvingut @<?=$info["username"]?>
+                </div>
             <?php endif; ?>
             <!--Missatge de tancament de sessió-->
             <div>
                 <?php if(!empty($logout_message)): ?>
-                    <p><?=$logout_message?></p>
+                    <div class="alert alert-warning" role="alert">
+                        <?=$logout_message?>
+                    </div>
                 <?php endif; ?>
             </div>
             <!--Missatges de confirmació-->
             <div>
                 <?php if(!empty($confirm_message)): ?>
-                    <p><?=$confirm_message?></p>
+                    <div class="alert alert-success" role="alert">
+                        <?=$confirm_message?>
+                    </div>
                 <?php endif; ?>
             </div>
             <!--Tuits-->

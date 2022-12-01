@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
-    session_start();
-    require_once 'src/App/Helpers/FlashMessage.php';
+    use App\Helpers\FlashMessage;
+    require_once 'bootstrap.php';
+    require_once 'vendor/autoload.php';
 
     $register_error = FlashMessage::get('register_errors');
     $info_form = FlashMessage::get('form');

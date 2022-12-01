@@ -1,8 +1,10 @@
 <?php
+    require_once 'bootstrap.php';
+
+    use App\Helpers\FlashMessage;
     use App\Registry;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
-    require_once 'bootstrap.php';
 
     try {
         $db = Registry::get(Registry::DB);
@@ -17,5 +19,9 @@
     } catch (Exception $err) {
         die($err->getLine().": ".$err->getMessage());
     }
+
+    # Missatges a mostrar a l'usuari
+    $info = FlashMessage::get('info');
+    $logout_message = FlashMessage::get('message');
 
     require 'views/index.view.php';

@@ -1,14 +1,25 @@
 <?php
-    session_start();
-    require 'src/App/Helpers/FlashMessage.php';
+    require_once 'bootstrap.php';
+    use App\Helpers\FlashMessage;
+    use App\Helpers\Validator;
+    use App\Registry;
+    use App\Services\TweetRepository;
+
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        # Connexió a la base de dades
-        require_once "dbConnection.php";
+        # Requeriment dels serveis necessàris
+        try {
+            $db = Registry::get(Registry::DB);
+            $validator = Registry::get(Validator::class);
+            $tweetRepository = Registry::get(TweetRepository::class);
+        } catch (Exception $err) {
+            die($err->getLine()." ".$err->getMessage());
+        }
 
         $value_search = "";
         $search_errors = [];
 
         if(!empty($_POST["tuit_search"])) {
+            $validator->lengthBetween($_POST["tuit_search"], 0, 280);
             if(strlen($_POST["tuit_search"]) > 280) {
                 $search_errors[] = "Un tuit no pot contindre més de 280 caracters";
             } else {
