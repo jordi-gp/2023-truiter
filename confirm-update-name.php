@@ -1,21 +1,33 @@
-<?php
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
-        session_start();
-        require_once 'src/App/Helpers/FlashMessage.php';
+<?php declare(strict_types=1);
+    use App\Helpers\FlashMessage;
+    use App\Helpers\Validator;
+    use App\Registry;
+    use App\Services\UserRepository;
 
-        # Connexió a la base de dades
-        require_once 'dbConnection.php';
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        require_once 'bootstrap.php';
+        require_once 'vendor/autoload.php';
 
         $userInf = $_SESSION["user"];
         $errors = [];
         $new_name = "";
 
+        try {
+            $userRepository = Registry::get(UserRepository::class);
+            $validator = Registry::get(Validator::class);
+        } catch (Exception $err) {
+            echo $err->getLine()." ".$err->getMessage();
+        }
+
         if(!empty($_POST["new_name"])) {
-            if(strlen($_POST["new_name"]) > 100) {
-                $errors[] = "El nom no pot contindre més de 100 caracters";
-            } else {
-                $new_name = filter_var($_POST["new_name"], FILTER_SANITIZE_SPECIAL_CHARS);
+            try {
+                $validator->lengthBetween($_POST["new_name"], 0, 100, "El nom no pot contindre més de 100 caracters");
+            } catch (InvalidArgumentException $err) {
+                $errors[] = "El nom indicat no es correcte";
             }
+
+            $new_name = filter_var($_POST["new_name"], FILTER_SANITIZE_SPECIAL_CHARS);
         } else {
             $errors[] = "El nom no pot estar en blanc!";
         }
@@ -25,25 +37,22 @@
             $errors[] = "El nom a actualitzar es el mateix que tens ja";
 
         if(empty($errors)) {
-            $stmt = $pdo->prepare("UPDATE user SET name=:new_name WHERE id=:user_id");
-            $stmt->bindValue('new_name', $new_name);
-            $stmt->bindValue('user_id', $userInf["id"]);
-            $stmt->execute();
+            $userRepository->updateName($userInf["id"], $new_name);
+
             $_SESSION["user"]["name"] = $new_name;
 
-            # Eliminació d'errors del formulari
             unset($_SESSION["errors"]);
 
-            //Missatge flash de confirmació per a l'usuari
+            # Missatge flash de confirmació per a l'usuari
             $flash_message = "El nom del compter s'ha canviat de forma correcta!";
             FlashMessage::set('confirm_message', $flash_message);
+
             header("Location: index.php");
-            exit();
         } else {
             FlashMessage::set('update_name_error', $errors);
             header("Location: edit-name.php");
-            exit();
         }
+        exit();
     } else {
         header("Location: index.php");
         exit();

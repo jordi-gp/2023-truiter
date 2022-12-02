@@ -53,8 +53,15 @@
         }
 
         # Funció per inserir un nou tweet
-        function addTweet()
+        function save(Tweet $tweet)
         {
+            $text = $tweet->getText();
+            $created_at = $tweet->getCreatedAt()->format("Y-m-d h:i:s");
+            $like_count = $tweet->getLikeCount();
+            $user_id = $tweet->getAuthor()->getId();
 
+            $stmt = $this->db->run("INSERT INTO tweet(text, created_at, like_count, user_id) 
+                    VALUES(:text, :created_at, :like_count, :user_id)",
+                    ["text"=>$text, "created_at"=>$created_at, "like_count"=>$like_count, "user_id"=>$user_id]);
         }
     }

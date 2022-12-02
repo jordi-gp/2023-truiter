@@ -1,12 +1,8 @@
 <?php
     require_once 'vendor/autoload.php';
-    require_once 'src/App/Helpers/FlashMessage.php';
-    use App\Photo;
-    use App\Tweet;
-    use App\Twitter;
-    use App\User;
-    use App\Video;
-    session_start();
+    require_once 'bootstrap.php';
+
+    use App\Helpers\FlashMessage;
 
     //Si no està loggejat l'usuari no pot accedir
     if(!isset($_SESSION["logged"])) {
@@ -18,6 +14,6 @@
 
         # Informació de l'usuari
         $info = $_SESSION["user"];
-    }
 
-    require 'views/tweet-new.view.php';
+        require 'views/tweet-new.view.php';
+    }

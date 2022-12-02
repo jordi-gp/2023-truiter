@@ -29,7 +29,9 @@
                 <!--Mostrat d'errors-->
                 <?php if(!empty($errors)): ?>
                     <?php foreach($errors as $error): ?>
-                        <p class="error"><?=$error?></p>
+                        <div class="alert alert-danger mt-4" role="alert">
+                            <?=$error?>
+                        </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
                 <button type="submit" class="btn btn-primary mt-2">Actualitzar nom</button>

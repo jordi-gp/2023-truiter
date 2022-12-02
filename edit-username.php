@@ -1,6 +1,8 @@
 <?php
-    session_start();
-    require_once 'src/App/Helpers/FlashMessage.php';
+    require_once 'bootstrap.php';
+    require_once 'vendor/autoload.php';
+
+    use App\Helpers\FlashMessage;
 
     if(!isset($_SESSION["logged"])) {
         header("Location: index.php");

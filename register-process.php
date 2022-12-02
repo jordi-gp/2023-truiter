@@ -104,7 +104,7 @@ use App\User;
             $_SESSION["logged"] = true;
             $_SESSION["user"] = $user_info;
 
-            FlashMessage::set("info", $user_info);
+            FlashMessage::set("info", $user_to_add->getUsername());
 
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);

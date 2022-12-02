@@ -27,7 +27,9 @@
             while($user = $stmt->fetch())
             {
                 $userObj = new User($user["name"], $user["username"]);
-                $userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+                #var_dump(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+                #$userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+                $userObj->setCreatedAt(new DateTime());
                 $users[] = $userObj;
             }
 
@@ -62,5 +64,17 @@
                                         ["name"=>$name, "username"=>$username, "password"=>$password, "created_at"=>$created_at, "verified"=>$verified]);
             $lastId = (int) $this->db->getPDO()->lastInsertId();
             $user->setId($lastId);
+        }
+
+        # Funció per actualitzar el nom
+        public function updateName(int $id, string $name)
+        {
+            $stmt = $this->db->run("UPDATE user SET name=:name WHERE id=:id", ["name"=>$name, "id"=>$id]);
+        }
+
+        # Funció per actualitzar el nom d'usuari
+        public function updateUsername(int $id, string $username)
+        {
+            $stmt = $this->db->run("UPDATE user SET username=:username WHERE id=:id", ["username"=>$username, "id"=>$id]);
         }
     }
