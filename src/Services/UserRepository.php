@@ -28,8 +28,9 @@
             {
                 $userObj = new User($user["name"], $user["username"]);
                 #var_dump(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
-                #$userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
-                $userObj->setCreatedAt(new DateTime());
+                $userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+
+                #$userObj->setCreatedAt(new DateTime());
                 $users[] = $userObj;
             }
 

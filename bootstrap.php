@@ -53,6 +53,14 @@
         echo $e->getMessage();
     }
 
+    $log = new Logger('App');
+    try {
+        $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
+        Registry::set('logged', $log);
+    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+        echo $e->getMessage();
+    }
+
     # Registre per a la classe validator
     $validator = new Validator();
     try {

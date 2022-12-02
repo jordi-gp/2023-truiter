@@ -23,5 +23,6 @@
     # Missatges a mostrar a l'usuari
     $info = FlashMessage::get('info');
     $logout_message = FlashMessage::get('message');
+    $confirm_message = FlashMessage::get('confirm_message');
 
     require 'views/index.view.php';

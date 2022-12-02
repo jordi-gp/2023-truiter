@@ -16,7 +16,7 @@ use App\User;
         "username" => "",
         "password" => "",
         "repeated_password" => "",
-        "created_at" => ""
+        "created_at" => date("Y-m-d h:i:s")
     ];
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -97,9 +97,13 @@ use App\User;
 
             $user_to_add = new User($user_info["name"], $user_info["username"]);
             $user_to_add->setPassword($hashed_password);
-            $user_to_add->setCreatedAt(new DateTime());
+            $created_at = DateTime::createFromFormat("Y-m-d h:i:s", $user_info["created_at"]);
+            var_dump($created_at);
+            $user_to_add->setCreatedAt($created_at);
 
             $userRepository->save($user_to_add);
+
+            $user_info["id"] = $user_to_add->getId();
 
             $_SESSION["logged"] = true;
             $_SESSION["user"] = $user_info;
