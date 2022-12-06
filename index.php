@@ -1,10 +1,10 @@
 <?php
     require_once 'bootstrap.php';
 
-    use App\Helpers\FlashMessage;
     use App\Registry;
-    use App\Services\TweetRepository;
+    use App\Helpers\FlashMessage;
     use App\Services\UserRepository;
+    use App\Services\TweetRepository;
 
     try {
         $db = Registry::get(Registry::DB);

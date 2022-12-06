@@ -27,14 +27,14 @@
             <h2>Tweets Trobats</h2>
             <?php if(!empty($found_tweets)): ?>
                 <?php foreach ($found_tweets as $tweet) : ?>
-                    <?=$tweet["username"];?>
-                    <p><?=$tweet["name"];?> (@<?=$tweet["username"];?>) - Creation
-                        date: <?=$tweet["created_at"];?></p>
-                    <blockquote><?=$tweet["text"];?></blockquote>
-                    <p>Like counter: <?=$tweet["like_count"];?></p>
-                    <?php if ($tweet["url"] != null) : ?>
-                        <img class="image" src="<?=$tweet["url"];?>" alt="<?=$tweet["alt_text"];?>" />
-                    <?php endif ;?>
+                    <?=$tweet->getAuthor()->getUsername();?>
+                    <p><?=$tweet->getAuthor()->getName();?> (@<?=$tweet->getAuthor()->getUsername();?>) - Creation
+                        date: <?=$tweet->getCreatedAt()->format("Y-m-d");?></p>
+                    <blockquote><?=$tweet->getText();?></blockquote>
+                    <p>Like counter: <?=$tweet->getLikeCount();?></p>
+                    <?php #if ($tweet["url"] != null) : ?>
+                        <img class="image" src="<?php #$tweet["url"];?>" alt="<?php #$tweet["alt_text"];?>" />
+                    <?php #endif ;?>
                     <hr/>
                 <?php endforeach; ?>
             <?php else: ?>

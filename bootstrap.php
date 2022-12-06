@@ -3,13 +3,14 @@
 
     require_once 'vendor/autoload.php';
 
-    use App\Helpers\Validator;
-
     use App\Registry;
 
+    use App\Helpers\Validator;
+
     use App\Services\DB;
-    use App\Services\TweetRepository;
     use App\Services\UserRepository;
+    use App\Services\PhotoRepository;
+    use App\Services\TweetRepository;
 
     use Monolog\Level;
     use Monolog\Logger;
@@ -49,6 +50,13 @@
     $userRepository = new UserRepository();
     try {
         Registry::set(UserRepository::class, $userRepository);
+    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+        echo $e->getMessage();
+    }
+
+    $photoRepository = new PhotoRepository();
+    try {
+        Registry::set(PhotoRepository::class, $photoRepository);
     } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
         echo $e->getMessage();
     }

@@ -19,6 +19,7 @@
         try {
             $userRepository = Registry::get(UserRepository::class);
             $validator = Registry::get(Validator::class);
+            $logger = Registry::get("logger");
         } catch (Exception $e) {
             die($e->getLine().": ".$e->getMessage());
         }
@@ -41,6 +42,7 @@
         if(!empty($errors)) {
             FlashMessage::set("login_errors", $errors);
             FlashMessage::set("username", $username);
+            $logger->info($username." ha iniciat sessió");
             header("Location: login.php");
         } else {
             $_SESSION["logged"] = true;

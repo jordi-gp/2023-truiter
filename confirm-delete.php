@@ -1,42 +1,43 @@
-<?php
+<?php declare(strict_types=1);
+
+    use App\Registry;
+    use App\Helpers\FlashMessage;
+    use App\Services\UserRepository;
+    use App\Services\TweetRepository;
+    use App\Services\PhotoRepository;
+
     if($_SERVER["REQUEST_METHOD"] === "POST") {
-        require_once 'src/App/Helpers/FlashMessage.php';
-
-        session_start();
-
-        //Connexió a la base de dades
-        require_once 'dbConnection.php';
+        require_once 'bootstrap.php';
 
         $userInf = $_SESSION["user"];
-        var_dump($userInf);
-
-        //Obtenció dels tuits amb imatge de l'usuari
-        $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN media m ON t.id=m.tuit_id WHERE user_id=:user_id");
-        $stmt->bindValue(':user_id', $userInf["id"]);
-        $stmt->execute();
-        $tuitIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $stmt = $pdo->prepare("DELETE FROM media WHERE tuit_id=:tuit_id");
-        foreach($tuitIds as $tuit_id) {
-            $stmt->bindValue(':tuit_id', $tuit_id["tuit_id"]);
-            $stmt->execute();
+        try {
+            $tweet_repository = Registry::get(TweetRepository::class);
+            $user_repository = Registry::get(UserRepository::class);
+            $photo_repository = Registry::get(PhotoRepository::class);
+        } catch (Exception $err) {
+            die($err->getLine()." ".$err->getMessage());
         }
 
-        //Eliminació dels tuits de l'usuari
-        $stmt = $pdo->prepare("DELETE FROM tweet WHERE user_id=:user_id");
-        $stmt->bindValue(':user_id', $userInf["id"]);
-        $stmt->execute();
+        # Obtenció dels tuits amb imatge de l'usuari
+        $tweetMedia = $photo_repository->selectMedia($userInf["id"]);
 
-        //Eliminació de l'usuari de la bbdd
-        $stmt = $pdo->prepare("DELETE FROM user WHERE id=:id");
-        $stmt->bindValue(':id', $userInf["id"]);
-        $stmt->execute();
+        foreach($tweetMedia as $media) {
+            $photo_repository->deleteMedia($media["tuit_id"]);
+        }
 
-        //Missatge flash de confirmació per a l'usuari
+        # Eliminació dels tuits de l'usuari
+        $tweet_repository->deleteTweetsFromUser($userInf["id"]);
+
+        # Eliminació de l'usuari de la bbdd
+        $user_repository->deleteUserById($userInf["id"]);
+
+        # Missatge flash de confirmació per a l'usuari
         $flash_message = "L'usuari s'ha eliminat de forma correcta!";
         FlashMessage::set('confirm_message', $flash_message);
+
         unset($_SESSION["user"]);
         unset($_SESSION["logged"]);
+
         header("Location: index.php");
         exit();
     } else {

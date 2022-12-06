@@ -30,13 +30,8 @@
         }
 
         if(empty($search_errors)) {
-            $stmt = $pdo->prepare("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id
-                                         LEFT JOIN media m ON t.id = m.tuit_id
-                                         WHERE t.text LIKE :text ORDER BY t.created_at DESC");
-            $stmt->bindValue(':text', "%$value_search%");
-            $stmt->execute();
+            $found_tweets = $tweetRepository->findTweetBy($value_search);
 
-            $found_tweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
             unset($_SESSION["search_errors"]);
 
             require_once "views/found-tweet.view.php";

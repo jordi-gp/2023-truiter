@@ -28,9 +28,9 @@
             {
                 $userObj = new User($user["name"], $user["username"]);
                 #var_dump(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
-                $userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+                #$userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
 
-                #$userObj->setCreatedAt(new DateTime());
+                $userObj->setCreatedAt(new DateTime());
                 $users[] = $userObj;
             }
 
@@ -42,6 +42,12 @@
         {
             $stmt = $this->db->run("SELECT * FROM user WHERE id=:id", ["id"=>$id]);
             return $stmt->fetch();
+        }
+
+        # Funció per eliminar l'usuari amb el seu id
+        public function deleteUserById(int $userId)
+        {
+            $stmt = $this->db->run("DELETE FROM user WHERE id=:id", ["id"=>$userId]);
         }
 
         # Funció per trobar un usuari pel seu nom d'usuari

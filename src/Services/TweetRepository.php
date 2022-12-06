@@ -53,7 +53,7 @@
         }
 
         # Funció per inserir un nou tweet
-        function save(Tweet $tweet)
+        public function save(Tweet $tweet)
         {
             $text = $tweet->getText();
             $created_at = $tweet->getCreatedAt()->format("Y-m-d h:i:s");
@@ -63,5 +63,31 @@
             $stmt = $this->db->run("INSERT INTO tweet(text, created_at, like_count, user_id) 
                     VALUES(:text, :created_at, :like_count, :user_id)",
                     ["text"=>$text, "created_at"=>$created_at, "like_count"=>$like_count, "user_id"=>$user_id]);
+        }
+
+        # Funció per borrar els tweets d'un usuari
+        public function deleteTweetsFromUser(int $userId)
+        {
+            $stmt = $this->db->run("DELETE FROM tweet WHERE user_id=:user_id", ["user_id"=>$userId]);
+        }
+
+        # Funció per buscar un tuit per contingut
+        public function findTweetBy(string $text):array
+        {
+            $stmt = $this->db->run("SELECT * FROM tweet t INNER JOIN user u ON t.user_id = u.id
+                                     LEFT JOIN media m ON t.id = m.tweet_id
+                                     WHERE t.text LIKE :text ORDER BY t.created_at DESC",
+                                     ["text"=>"%$text%"]);
+
+            $tweetsByText = [];
+
+            while ($foundTweets = $stmt->fetch())
+            {
+                $userTweet = new User($foundTweets["name"], $foundTweets["username"]);
+                $tweets = new Tweet($foundTweets["text"], $userTweet);
+                $tweetsByText[] = $tweets;
+            }
+
+            return $tweetsByText;
         }
     }
