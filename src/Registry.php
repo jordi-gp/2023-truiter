@@ -2,6 +2,7 @@
 
     namespace App;
     use App\Helpers\Exceptions\InvalidArgumentException;
+    use App\Services\PhotoRepository;
     use App\Services\TweetRepository;
     use App\Services\UserRepository;
     use App\Helpers\Validator;
@@ -24,7 +25,8 @@
             TweetRepository::class,
             UserRepository::class,
             Validator::class,
-            "logger"
+            "logger",
+            PhotoRepository::class
         ];
 
         final public static function set(string $key, mixed $value)

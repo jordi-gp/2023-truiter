@@ -104,11 +104,11 @@
                     <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
                     <?php if(count($tweet->getAttachments()) > 0) : ?>
                         <ul>
-                            <?php foreach($tweet->getAttachments() as $attachment): ?>
+                            <?php #foreach($tweet->getAttachments() as $attachment): ?>
                                 <li>
-                                    <?=$attachment->getAltText();?>
+                                    <?php #$attachment->getAltText();?>
                                 </li>
-                            <?php endforeach; ?>
+                            <?php #endforeach; ?>
                         </ul>
                         <!--<img id="imatge" src="<?php #$tweet["url"]?>" alt="<?php #$tweet["alt_text"]?>" />-->
                     <?php endif ;?>
