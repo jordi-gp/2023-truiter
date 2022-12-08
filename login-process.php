@@ -42,12 +42,13 @@
         if(!empty($errors)) {
             FlashMessage::set("login_errors", $errors);
             FlashMessage::set("username", $username);
-            $logger->info($username." ha iniciat sessió");
             header("Location: login.php");
         } else {
             $_SESSION["logged"] = true;
             FlashMessage::set('info', $username);
             $_SESSION["user"] = $user;
+
+            $logger->info("@".$username." ha iniciat sessió");
             unset($_SESSION["errors"]);
             header("Location: index.php");
         }

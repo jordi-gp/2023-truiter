@@ -20,7 +20,7 @@
     $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
     try {
         Registry::set('logger', $log);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 
@@ -34,7 +34,7 @@
     $db = new DB($db_name, $db_username, $db_password, $db_host);
     try {
         Registry::set(Registry::DB, $db);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 
@@ -42,7 +42,7 @@
     $tweetRepository = new TweetRepository();
     try {
         Registry::set(TweetRepository::class, $tweetRepository);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 
@@ -50,22 +50,22 @@
     $userRepository = new UserRepository();
     try {
         Registry::set(UserRepository::class, $userRepository);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 
     $photoRepository = new PhotoRepository();
     try {
         Registry::set(PhotoRepository::class, $photoRepository);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 
     $log = new Logger('App');
     try {
         $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
-        Registry::set('logged', $log);
-    } catch (\App\Helpers\Exceptions\InvalidArgumentException $e) {
+        Registry::set('logger', $log);
+    } catch (Exception $e) {
         echo $e->getMessage();
     }
 

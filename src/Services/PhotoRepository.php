@@ -4,6 +4,8 @@
 
     use App\Photo;
     use App\Registry;
+    use App\User;
+    use App\Tweet;
 
     class PhotoRepository
     {
@@ -11,7 +13,7 @@
 
         public function __construct()
         {
-            $this->db = Registry::get(DB::class);
+            $this->db = Registry::get(Registry::DB);
         }
 
         public function save(Photo $media)

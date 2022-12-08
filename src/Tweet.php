@@ -10,6 +10,7 @@ class Tweet
     private DateTime $createdAt;
     private int $likeCount;
     private array $attachments;
+    private int $id;
 
     public function __construct(string $text, User $author)
     {
@@ -83,6 +84,16 @@ class Tweet
     public function setLikeCount(int $likeCount): void
     {
         $this->likeCount = $likeCount;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**

@@ -1,17 +1,23 @@
 <?php declare(strict_types=1);
     const MAX_SIZE = 1024 * 1024 * 3;
 
-    require_once 'vendor/autoload.php';
+    require_once 'bootstrap.php';
 
-    use App\Helpers\FlashMessage;
-    use App\Helpers\Validator;
-    use App\Helpers\UploadedFileHandler;
-    use App\Helpers\Exceptions\InvalidArgumentException;
-    use App\Helpers\Exceptions\NoUploadedFileException;
-    use App\Helpers\Exceptions\UploadedFileException;
+    use App\User;
+    use App\Tweet;
+    use App\Photo;
     use App\Registry;
 
-    session_start();
+    use App\Services\PhotoRepository;
+    use App\Services\TweetRepository;
+    use App\Services\UserRepository;
+
+    use App\Helpers\Validator;
+    use App\Helpers\FlashMessage;
+    use App\Helpers\UploadedFileHandler;
+
+    use App\Helpers\Exceptions\UploadedFileException;
+    use App\Helpers\Exceptions\NoUploadedFileException;
 
     $errors = [];
     $tweet = [
@@ -24,14 +30,22 @@
     $validFormat[] = "image/png";
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
+        $userRepository = Registry::get(UserRepository::class);
+        $tweetRepository = Registry::get(TweetRepository::class);
+        $photoRepository = Registry::get(PhotoRepository::class);
         $validator = Registry::get(Validator::class);
 
+
         # Validació del tuit
-        try {
-            $validator->lengthBetween($_POST["tuitValue"], 0, 250);
-            $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
-        } catch (InvalidArgumentException $err) {
-            $errors[] = $err->getMessage();
+        if(empty($_POST["tuitValue"])) {
+            $errors[] = "No es pot publicar un tuit buit";
+        } else {
+            try {
+                $validator->lengthBetween($_POST["tuitValue"], 2, 250);
+                $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
+            } catch (InvalidArgumentException $err) {
+                $errors[] = $err->getMessage();
+            }
         }
 
         if(!empty($_FILES)) {
@@ -49,22 +63,18 @@
 
         # Gestió a l'hora d'enviar el formulari
         if(!empty($errors)) {
-            # FlashMessage::set('new_tweet_errors', $errors);
-            # FlashMessage::set('infoTweet', $tweet);
+            FlashMessage::set('new_tweet_errors', $errors);
+            FlashMessage::set('infoTweet', $tweet);
             unset($_SESSION["newTweet"]);
             header("Location: tweet-new.php");
             exit();
         } else {
-            # Informació de l'usuari
+            # Afegiment d'un nou tweet
             $user_info = $_SESSION["user"];
-            $created_at = new DateTime();
+            $tweetAuthor = new User($user_info["name"], $user_info["username"]);
+            $newTweet = new Tweet($tweet["tuitValue"], $tweetAuthor);
 
-            $stmt = $pdo->prepare("INSERT INTO tweet(text, created_at, like_count, user_id) VALUES(:text, :created_at, :like_count, :user_id)");
-            $stmt->bindValue(':text', $tweet["tuitValue"]);
-            $stmt->bindValue(':created_at', $created_at->format("Y-m-d h:i:s"));
-            $stmt->bindValue(':like_count', 0);
-            $stmt->bindValue(':user_id', $user_info["id"]);
-            $stmt->execute();
+            $tweetRepository->save($newTweet);
 
             # Imatge del tuit
             if($_FILES["tuitFile"]["error"] === UPLOAD_ERR_OK) {

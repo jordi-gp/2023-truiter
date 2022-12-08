@@ -63,6 +63,9 @@
             $stmt = $this->db->run("INSERT INTO tweet(text, created_at, like_count, user_id) 
                     VALUES(:text, :created_at, :like_count, :user_id)",
                     ["text"=>$text, "created_at"=>$created_at, "like_count"=>$like_count, "user_id"=>$user_id]);
+
+            $id = $this->db->getPDO()->lastInsertId();
+            $tweet->setId($id);
         }
 
         # Funció per borrar els tweets d'un usuari

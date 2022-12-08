@@ -102,13 +102,13 @@
                         date: <?= $tweet->getCreatedAt()->format("Y-m-d"); ?></p>
                     <blockquote><?=$tweet->getText();?></blockquote>
                     <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
-                    <?php if(count($tweet->getAttachments()) > 0) : ?>
+                    <?php if(count($tweet->getAttachments()) > 0): ?>
                         <ul>
-                            <?php #foreach($tweet->getAttachments() as $attachment): ?>
+                            <?php foreach($tweet->getAttachments() as $attachment): ?>
                                 <li>
-                                    <?php #$attachment->getAltText();?>
+                                    <?php $attachment->getAltText();?>
                                 </li>
-                            <?php #endforeach; ?>
+                            <?php endforeach; ?>
                         </ul>
                         <!--<img id="imatge" src="<?php #$tweet["url"]?>" alt="<?php #$tweet["alt_text"]?>" />-->
                     <?php endif ;?>

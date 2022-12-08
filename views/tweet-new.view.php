@@ -28,14 +28,11 @@
                 <button class="btn btn-primary" type="submit">Tuiteja</button>
             </form>
             <?php if(!empty($errors)): ?>
-            <div>
-                <h3>Errors</h3>
-                <?php foreach($errors as $error): ?>
-                    <p class="error">
-                        <?=$error?>
-                    </p>
-                <?php endforeach; ?>
-            </div>
+            <?php if(!empty($errors)): ?>
+                <div class="alert alert-danger mt-4" role="alert">
+                    <?=$errors[0]?>
+                </div>
+            <?php endif; ?>
             <?php endif; ?>
         </div>
         <div class="col-3 border"></div>
