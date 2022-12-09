@@ -43,8 +43,7 @@
 
                 # Obtenció de les imatges dels tweets
                 while ($media = $stmtMedia->fetch()) {
-                    $mediaObj = new Photo($media["alt_text"], $media["width"],
-                        $media["height"], $media["alt_text"]);
+                    $mediaObj = new Photo($media["alt_text"], $media["width"], $media["height"], $media["alt_text"]);
                     $tweetObj->addAttachment($mediaObj);
                 }
                 $tweets[] = $tweetObj;

@@ -18,6 +18,7 @@
 
     use App\Helpers\Exceptions\UploadedFileException;
     use App\Helpers\Exceptions\NoUploadedFileException;
+    use App\Helpers\Exceptions\InvalidArgumentException;
 
     $errors = [];
     $tweet = [
@@ -37,15 +38,11 @@
 
 
         # Validació del tuit
-        if(empty($_POST["tuitValue"])) {
-            $errors[] = "No es pot publicar un tuit buit";
-        } else {
-            try {
-                $validator->lengthBetween($_POST["tuitValue"], 2, 250);
-                $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
-            } catch (InvalidArgumentException $err) {
-                $errors[] = $err->getMessage();
-            }
+        try {
+            $validator->lengthBetween($_POST["tuitValue"], 2, 250);
+            $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
+        } catch (InvalidArgumentException $err) {
+            $errors[] = $err->getMessage();
         }
 
         if(!empty($_FILES)) {
@@ -58,7 +55,6 @@
             } catch (Exception $exception) {
                 $errors[] = $exception->getMessage();
             }
-
         }
 
         # Gestió a l'hora d'enviar el formulari

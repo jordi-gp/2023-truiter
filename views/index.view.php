@@ -106,7 +106,7 @@
                         <ul>
                             <?php foreach($tweet->getAttachments() as $attachment): ?>
                                 <li>
-                                    <?php $attachment->getAltText();?>
+                                    <?= $attachment->getAltText();?>
                                 </li>
                             <?php endforeach; ?>
                         </ul>

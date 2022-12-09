@@ -21,16 +21,16 @@
             $users = [];
 
             # Obtenció dels usuaris de la base de dades
-            $stmt = $this->db->run("SELECT * FROM user");
+            $stmt = $this->db->run("SELECT * FROM user ORDER BY created_at DESC");
 
             # Afegiment dels usuaris a l'array
             while($user = $stmt->fetch())
             {
                 $userObj = new User($user["name"], $user["username"]);
                 #var_dump(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
-                #$userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
+                $userObj->setCreatedAt(DateTime::createFromFormat("Y-m-d h:i:s", $user["created_at"]));
 
-                $userObj->setCreatedAt(new DateTime());
+                #$userObj->setCreatedAt(new DateTime());
                 $users[] = $userObj;
             }
 
