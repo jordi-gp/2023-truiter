@@ -1,8 +1,13 @@
 <?php
     require_once 'bootstrap.php';
-    use App\Helpers\FlashMessage;
-    use App\Helpers\Validator;
+
     use App\Registry;
+
+    use App\Core\View;
+
+    use App\Helpers\Validator;
+    use App\Helpers\FlashMessage;
+
     use App\Services\TweetRepository;
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -34,7 +39,7 @@
 
             unset($_SESSION["search_errors"]);
 
-            require_once "views/found-tweet.view.php";
+            echo View::render('found-tweet', 'default', compact('found_tweets'));
         } else {
             FlashMessage::set('search_errors', $search_errors);
             header("Location: index.php");

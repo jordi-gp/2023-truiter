@@ -36,7 +36,6 @@
         $photoRepository = Registry::get(PhotoRepository::class);
         $validator = Registry::get(Validator::class);
 
-
         # Validació del tuit
         try {
             $validator->lengthBetween($_POST["tuitValue"], 2, 250);
@@ -68,7 +67,11 @@
             # Afegiment d'un nou tweet
             $user_info = $_SESSION["user"];
             $tweetAuthor = new User($user_info["name"], $user_info["username"]);
+            $tweetAuthor->setId((int) $user_info["id"]);
+
             $newTweet = new Tweet($tweet["tuitValue"], $tweetAuthor);
+            $newTweet->setCreatedAt(new DateTime());
+            $newTweet->setLikeCount(0);
 
             $tweetRepository->save($newTweet);
 

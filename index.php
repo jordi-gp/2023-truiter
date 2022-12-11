@@ -1,10 +1,14 @@
 <?php
-    require_once 'bootstrap.php';
+    use App\Core\View;
 
     use App\Registry;
+
     use App\Helpers\FlashMessage;
+
     use App\Services\UserRepository;
     use App\Services\TweetRepository;
+
+    require_once 'bootstrap.php';
 
     try {
         $db = Registry::get(Registry::DB);
@@ -25,4 +29,4 @@
     $logout_message = FlashMessage::get('message');
     $confirm_message = FlashMessage::get('confirm_message');
 
-    require 'views/index.view.php';
+    echo View::render('index', 'default', compact('tweets', 'users', 'numOfTweets', 'numOfUsers'));

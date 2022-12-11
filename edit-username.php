@@ -2,6 +2,8 @@
     require_once 'bootstrap.php';
     require_once 'vendor/autoload.php';
 
+    use App\Core\View;
+
     use App\Helpers\FlashMessage;
 
     if(!isset($_SESSION["logged"])) {
@@ -9,10 +11,11 @@
         exit();
     } else {
         # Informació de l'usuari
-        $user_info = $_SESSION["user"];
+        $userInfo = $_SESSION["user"];
+        $username = $userInfo["username"];
 
         # Errors del formulari
         $errors = FlashMessage::get('update_username_errors');
 
-        require 'views/edit-username.view.php';
+        echo View::render('edit-username', 'default', compact('username', 'errors'));
     }

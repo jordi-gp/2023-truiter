@@ -1,4 +1,6 @@
 <?php
+    use App\Core\View;
+
     require_once 'bootstrap.php';
     require_once 'vendor/autoload.php';
 
@@ -9,5 +11,6 @@
         $user = $_SESSION["user"];
         $name = $user["name"];
         $username = $user["username"];
-        require 'views/profile.view.php';
+
+        echo View::render('profile', 'default', compact('username', 'name'));
     }

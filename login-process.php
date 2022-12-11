@@ -1,9 +1,13 @@
 <?php declare(strict_types=1);
     require_once 'bootstrap.php';
-    use App\Helpers\FlashMessage;
-    use App\Helpers\Validator;
+
     use App\Registry;
+
+    use App\Helpers\Validator;
+    use App\Helpers\FlashMessage;
+
     use App\Services\UserRepository;
+    use App\User;
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST["username"];

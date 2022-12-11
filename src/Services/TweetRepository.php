@@ -54,17 +54,18 @@
         # Funció per inserir un nou tweet
         public function save(Tweet $tweet)
         {
-            $text = $tweet->getText();
-            $created_at = $tweet->getCreatedAt()->format("Y-m-d h:i:s");
-            $like_count = $tweet->getLikeCount();
-            $user_id = $tweet->getAuthor()->getId();
+            $data["text"] = $tweet->getText();
+            $data["user_id"] = $tweet->getAuthor()->getId();
+            $data["created_at"] = $tweet->getCreatedAt()->format("Y-m-d h:i:s");
+            $data["like_count"] = $tweet->getLikeCount();
 
-            $stmt = $this->db->run("INSERT INTO tweet(text, created_at, like_count, user_id) 
-                    VALUES(:text, :created_at, :like_count, :user_id)",
-                    ["text"=>$text, "created_at"=>$created_at, "like_count"=>$like_count, "user_id"=>$user_id]);
+            $sql = "INSERT INTO tweet(text, created_at, like_count, user_id) VALUES(:text, :created_at, :like_count, :user_id)";
 
-            $id = $this->db->getPDO()->lastInsertId();
-            $tweet->setId($id);
+            $stmt = $this->db->run($sql, $data);
+
+            $tweet_id = $this->db->getPDO()->lastInsertId();
+            var_dump($tweet_id);
+            $tweet->setId((int) $tweet_id);
         }
 
         # Funció per borrar els tweets d'un usuari
