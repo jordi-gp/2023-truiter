@@ -6,7 +6,7 @@ services:
       context: .
     restart: "no"
     volumes:
-      - "./:/var/www/html/"
+      - "./:/var/www/html/public/"
     ports:
       - "8080:80"
     environment:

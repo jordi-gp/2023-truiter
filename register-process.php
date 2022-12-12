@@ -1,13 +1,18 @@
 <?php declare(strict_types=1);
     require_once 'bootstrap.php';
+    require_once 'vendor/autoload.php';
+
+    use App\User;
 
     use App\Registry;
+
     use App\Helpers\Validator;
     use App\Helpers\FlashMessage;
-    use App\Services\UserRepository;
-use App\User;
 
-    require_once 'vendor/autoload.php';
+    use App\Services\UserRepository;
+
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     $register_errors = [];
     $user_info = [
@@ -19,7 +24,10 @@ use App\User;
         "created_at" => date("Y-m-d h:i:s")
     ];
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
+    $request = Request::createFromGlobals();
+
+    $request_method = $request->server->get('REQUEST_METHOD');
+    if($request_method === "POST") {
         # Servici de connexió a la base de dades
         try {
             $db = Registry::get(Registry::DB);
@@ -35,50 +43,41 @@ use App\User;
             die($e->getLine().": ".$e->getMessage());
         }
 
-        # Validació del formulari
-        if(!empty($_POST["name"])) {
-            try {
-                Validator::lengthBetween($_POST["name"], 0, 100, "Nom o contrasenya incorrectes");
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                $register_errors[] = $err->getMessage();
-            }
-            $user_info["name"] = filter_var($_POST["name"], FILTER_SANITIZE_SPECIAL_CHARS);
-        } else {
-            $register_errors[] = "Nom o contrasenya incorrectes";
+        # Nom
+        $name = $request->get('name', '');
+        try {
+            Validator::lengthBetween($name, 2, 100, "Nom o contrasenya incorrectes");
+        } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+            $register_errors[] = $err->getMessage();
         }
+        $user_info["name"] = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if(!empty($_POST["username"])) {
-            try {
-                Validator::lengthBetween($_POST["username"], 0, 100);
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                $register_errors[] = $err->getMessage();
-            }
-            $user_info["username"] = filter_var($_POST["username"], FILTER_SANITIZE_SPECIAL_CHARS);
-        } else {
-            $register_errors[] = "Nom o contrasenya incorrectes";
+        # Nom d'usuari
+        $username = $request->get('username', '');
+        try {
+            Validator::lengthBetween($username, 2, 100, "Nom o contrasenya incorrectes");
+        } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+            $register_errors[] = $err->getMessage();
         }
+        $user_info["username"] = filter_var($username, FILTER_SANITIZE_SPECIAL_CHARS);
 
-        if(!empty($_POST["password"])) {
-            try {
-                Validator::lengthBetween($_POST["password"], 0, 100, "Nom o contrasenya incorrectes");
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                $register_errors[] = $err->getMessage();
-            }
-            $user_info["password"] = $_POST["password"];
-        } else {
-            $register_errors[] = "Nom o contrasenya incorrectes";
+        # Contrassenya
+        $password = $request->get('password', '');
+        try {
+            Validator::lengthBetween($password, 2, 100, "Nom o contrasenya incorrectes");
+        } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+            $register_errors[] = $err->getMessage();
         }
+        $user_info["password"] = $password;
 
-        if(!empty($_POST["repeated_password"])) {
-            try {
-                Validator::lengthBetween($_POST["repeated_password"], 0, 100);
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
-                $register_errors[] = $err->getMessage();
-            }
-            $user_info["repeated_password"] = $_POST["repeated_password"];
-        } else {
-            $register_errors[] = "Nom o contrasenya incorrectes";
+        # Contrassenya repetida
+        $repeated_password = $request->get('repeated_password', '');
+        try {
+            Validator::lengthBetween($_POST["repeated_password"], 2, 100, "Nom o contrasenya incorrectes");
+        } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+            $register_errors[] = $err->getMessage();
         }
+        $user_info["repeated_password"] = $repeated_password;
 
         # Comprovació de que l'usuari indicat es troba registrat
         $registered_user = $userRepository->findByUsername($user_info["username"]);
@@ -91,14 +90,13 @@ use App\User;
             FlashMessage::set("register_errors", $register_errors);
             FlashMessage::set("form", $user_info);
 
-            header("Location: register.php");
+            $redirectResponse = new RedirectResponse('register.php');
         } else {
             $hashed_password = password_hash($user_info["repeated_password"], PASSWORD_DEFAULT);
 
             $user_to_add = new User($user_info["name"], $user_info["username"]);
             $user_to_add->setPassword($hashed_password);
             $created_at = DateTime::createFromFormat("Y-m-d h:i:s", $user_info["created_at"]);
-            var_dump($created_at);
             $user_to_add->setCreatedAt($created_at);
 
             $userRepository->save($user_to_add);
@@ -113,10 +111,10 @@ use App\User;
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);
 
-            header("Location: index.php");
+            $redirectResponse = new RedirectResponse('index.php');
         }
-        exit();
+        $redirectResponse->send();
     } else {
-        header("Location: register.php");
-        exit();
+        $redirectResponse = new RedirectResponse('register.php');
+        $redirectResponse->send();
     }

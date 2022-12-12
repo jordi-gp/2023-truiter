@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
     require_once 'bootstrap.php';
 
-    use App\User;
     use App\Registry;
 
     use App\Helpers\Validator;
@@ -9,11 +8,16 @@
 
     use App\Services\UserRepository;
 
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\RedirectResponse;
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+    $request = Request::createFromGlobals();
+
+    $request_method = $request->server->get('REQUEST_METHOD');
+    if($request_method === "POST") {
+        $username = $request->get('username', '');
+        $password = $request->get('password', '');
+
         $errors = [];
 
         try {

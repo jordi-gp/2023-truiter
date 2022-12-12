@@ -2,11 +2,15 @@
     use App\Core\View;
 
     use App\Helpers\FlashMessage;
+    use Symfony\Component\HttpFoundation\Response;
 
     require_once 'bootstrap.php';
     require_once 'vendor/autoload.php';
 
-    $register_error = FlashMessage::get('register_errors');
+    $register_errors = FlashMessage::get('register_errors');
     $info_form = FlashMessage::get('form');
 
-    echo View::render('register', 'default', compact('register_error', 'info_form'));
+    $content = View::render('register', 'default', compact('register_errors', 'info_form'));
+    $response = new Response($content);
+    $response->setStatusCode(Response::HTTP_OK);
+    $response->send();

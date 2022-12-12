@@ -20,6 +20,9 @@
     use App\Helpers\Exceptions\NoUploadedFileException;
     use App\Helpers\Exceptions\InvalidArgumentException;
 
+    use Symfony\Component\HttpFoundation\Request;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
+
     $errors = [];
     $tweet = [
         "tuitValue" => "",
@@ -30,16 +33,20 @@
     $validFormat[] = "image/jpeg";
     $validFormat[] = "image/png";
 
-    if($_SERVER["REQUEST_METHOD"] === "POST") {
+    $request = Request::createFromGlobals();
+
+    $request_method = $request->server->get('REQUEST_METHOD');
+    if($request_method === "POST") {
         $userRepository = Registry::get(UserRepository::class);
         $tweetRepository = Registry::get(TweetRepository::class);
         $photoRepository = Registry::get(PhotoRepository::class);
         $validator = Registry::get(Validator::class);
 
         # Validació del tuit
+        $tuitValue = $request->get('tuitValue');
         try {
-            $validator->lengthBetween($_POST["tuitValue"], 2, 250);
-            $tweet["tuitValue"] = filter_var($_POST["tuitValue"], FILTER_SANITIZE_SPECIAL_CHARS);
+            $validator->lengthBetween($tuitValue, 2, 250);
+            $tweet["tuitValue"] = filter_var($tuitValue, FILTER_SANITIZE_SPECIAL_CHARS);
         } catch (InvalidArgumentException $err) {
             $errors[] = $err->getMessage();
         }
@@ -60,9 +67,10 @@
         if(!empty($errors)) {
             FlashMessage::set('new_tweet_errors', $errors);
             FlashMessage::set('infoTweet', $tweet);
+
             unset($_SESSION["newTweet"]);
-            header("Location: tweet-new.php");
-            exit();
+
+            $redirectResponse = new RedirectResponse('tweet-new.php');
         } else {
             # Afegiment d'un nou tweet
             $user_info = $_SESSION["user"];
@@ -95,9 +103,9 @@
                 }
             }
             unset($_SESSION["errors"]);
-            header("Location: index.php");
+            $redirectResponse = new RedirectResponse('index.php');
         }
-        exit();
+        $redirectResponse->send();
     } else {
         header("Location: tweet-new.php");
         exit();
