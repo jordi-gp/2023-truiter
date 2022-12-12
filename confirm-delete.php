@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+    require_once 'bootstrap.php';
 
     use App\Registry;
     use App\Helpers\FlashMessage;
@@ -11,7 +12,6 @@
         $decision = $_POST["decision"];
 
         if($decision === "delete") {
-            require_once 'bootstrap.php';
 
             $userInf = $_SESSION["user"];
             try {
