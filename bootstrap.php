@@ -27,8 +27,8 @@
     # DB credentials info
     $db_name = "truiter";
     $db_username = "root";
-    $db_password = "";
-    $db_host = "localhost";
+    $db_password = "secret";
+    $db_host = "mysql-server";
 
     # Registre dedicata la base de dades
     $db = new DB($db_name, $db_username, $db_password, $db_host);
