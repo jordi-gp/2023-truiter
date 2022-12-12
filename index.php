@@ -1,4 +1,6 @@
 <?php
+    require_once 'bootstrap.php';
+
     use App\Core\View;
 
     use App\Registry;
@@ -8,7 +10,11 @@
     use App\Services\UserRepository;
     use App\Services\TweetRepository;
 
-    require_once 'bootstrap.php';
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
+
+# Obtenció de valors passats per $_POST
+    # $request->request('valor', 'valor per defecte');
 
     try {
         $db = Registry::get(Registry::DB);
@@ -28,5 +34,9 @@
     $info = FlashMessage::get('info');
     $logout_message = FlashMessage::get('message');
     $confirm_message = FlashMessage::get('confirm_message');
+    $search_errors = FlashMessage::get('search_errors');
 
-    echo View::render('index', 'default', compact('tweets', 'users', 'numOfTweets', 'numOfUsers'));
+    $content = View::render('index', 'default', compact('tweets', 'users', 'numOfTweets', 'numOfUsers', 'info', 'logout_message', 'confirm_message', 'search_errors'));
+    $response = new Response($content);
+    $response->setStatusCode(Response::HTTP_OK);
+    $response->send();

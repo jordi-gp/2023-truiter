@@ -5,13 +5,12 @@
     use App\Services\UserRepository;
     use App\Services\TweetRepository;
     use App\Services\PhotoRepository;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $decision = $_POST["decision"];
 
-        if($decision === "cancel") {
-            header("Location: index.php");
-        } else {
+        if($decision === "delete") {
             require_once 'bootstrap.php';
 
             $userInf = $_SESSION["user"];
@@ -42,11 +41,10 @@
 
             unset($_SESSION["user"]);
             unset($_SESSION["logged"]);
-
-            header("Location: index.php");
         }
-        exit();
+        $response = new RedirectResponse("index.php");
+        $response->send();
     } else {
-        header('Location: index.php');
-        exit();
+        $response = new RedirectResponse("index.php");
+        $response->send();
     }

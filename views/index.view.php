@@ -41,9 +41,12 @@
         </div>
     </div>
 </div>
+<!--Missatges flash-->
 <?php if (!empty($search_errors)): ?>
     <?php foreach ($search_errors as $search_err): ?>
-        <p class="error mt-2"><?= $search_err ?></p>
+        <div class="alert alert-danger mt-3" role="alert">
+            <?=$search_err?>
+        </div>
     <?php endforeach; ?>
 <?php endif; ?>
 <!--Missatge de benvinguda-->

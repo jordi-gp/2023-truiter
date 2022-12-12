@@ -18,6 +18,6 @@
         <hr/>
     <?php endforeach; ?>
 <?php else: ?>
-    <h4>No s'han trobat tuits amb els valors indicats</h4>
+    <h5>No s'han trobat tuits amb els valors indicats, Segur que has introduït els valors correctes?</h5>
     <img class="image" src="assets/homer_think.png" alt="not_found_tweet" />
 <?php endif; ?>

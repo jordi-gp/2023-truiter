@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
     require_once 'bootstrap.php';
 
+    use App\User;
     use App\Registry;
 
     use App\Helpers\Validator;
     use App\Helpers\FlashMessage;
 
     use App\Services\UserRepository;
-    use App\User;
+
+    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $username = $_POST["username"];
@@ -46,7 +48,7 @@
         if(!empty($errors)) {
             FlashMessage::set("login_errors", $errors);
             FlashMessage::set("username", $username);
-            header("Location: login.php");
+            $response = new RedirectResponse("login.php");
         } else {
             $_SESSION["logged"] = true;
             FlashMessage::set('info', $username);
@@ -54,10 +56,10 @@
 
             $logger->info("@".$username." ha iniciat sessió");
             unset($_SESSION["errors"]);
-            header("Location: index.php");
+            $response = new RedirectResponse("index.php");
         }
-        exit();
+        $response->send();
     } else {
-        header("Location: login.php");
-        exit();
+        $response = new RedirectResponse("login.php");
+        $response->send();
     }
