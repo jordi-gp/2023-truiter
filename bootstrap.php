@@ -16,14 +16,6 @@
     use Monolog\Logger;
     use Monolog\Handler\StreamHandler;
 
-    $log = new Logger('App');
-    $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
-    try {
-        Registry::set('logger', $log);
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-
     # DB credentials info
     $db_name = "truiter";
     $db_username = "root";
@@ -63,7 +55,7 @@
 
     $log = new Logger('App');
     try {
-        $log->pushHandler(new StreamHandler('var/app.log', Level::Debug));
+        $log->pushHandler(new StreamHandler(__DIR__ . '/var/app.log', Level::Debug));
         Registry::set('logger', $log);
     } catch (Exception $e) {
         echo $e->getMessage();

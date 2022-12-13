@@ -90,7 +90,7 @@
             FlashMessage::set("register_errors", $register_errors);
             FlashMessage::set("form", $user_info);
 
-            $redirectResponse = new RedirectResponse('register.php');
+            $redirectResponse = new RedirectResponse('register');
         } else {
             $hashed_password = password_hash($user_info["repeated_password"], PASSWORD_DEFAULT);
 
@@ -111,10 +111,10 @@
             unset($_SESSION["form"]);
             unset($_SESSION["register_error"]);
 
-            $redirectResponse = new RedirectResponse('index.php');
+            $redirectResponse = new RedirectResponse('/');
         }
         $redirectResponse->send();
     } else {
-        $redirectResponse = new RedirectResponse('register.php');
+        $redirectResponse = new RedirectResponse('register');
         $redirectResponse->send();
     }

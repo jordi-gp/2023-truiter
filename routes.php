@@ -5,6 +5,9 @@
 
     $routes->add('index', new Routing\Route('/'));
 
+    $routes->add('register', new Routing\Route('/register'));
+    $routes->add('register-process', new Routing\Route('/register-process'));
+
     $routes->add('login', new Routing\Route('/login'));
     $routes->add('login-process', new Routing\Route('/login-process'));
 

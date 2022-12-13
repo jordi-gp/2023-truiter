@@ -1,6 +1,3 @@
-<Directory>
-    AllowOverride All
-</Directory>
 <IfModule mod_rewrite.c>
     Options -MultiViews
     RewriteEngine On

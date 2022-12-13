@@ -1,5 +1,5 @@
 <h2>Inici de sessió</h2>
-<form class="mt-2" method="post" action="register-process.php">
+<form class="mt-2" method="post" action="register-process">
     <!--Nom-->
     <label for="name" class="form-label">Nom</label>
     <input id="usuario mb-2" class="form-control" <?php if(!empty($info_form["name"])):?>value="<?=$info_form["name"]?>"<?php endif;?> name="name" >

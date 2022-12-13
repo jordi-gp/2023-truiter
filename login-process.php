@@ -52,7 +52,7 @@
         if(!empty($errors)) {
             FlashMessage::set("login_errors", $errors);
             FlashMessage::set("username", $username);
-            $response = new RedirectResponse("login.php");
+            $response = new RedirectResponse("login");
         } else {
             $_SESSION["logged"] = true;
             FlashMessage::set('info', $username);
@@ -60,10 +60,10 @@
 
             $logger->info("@".$username." ha iniciat sessió");
             unset($_SESSION["errors"]);
-            $response = new RedirectResponse("index.php");
+            $response = new RedirectResponse("/index.php");
         }
         $response->send();
     } else {
-        $response = new RedirectResponse("login.php");
+        $response = new RedirectResponse("login");
         $response->send();
     }

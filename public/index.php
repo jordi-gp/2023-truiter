@@ -5,6 +5,7 @@
 
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     $request = Request::createFromGlobals();
 
@@ -19,9 +20,10 @@
         extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
         include sprintf(__DIR__ . '/../%s.php', $_route);
     } catch (Routing\Exception\ResourceNotFoundException $exception) {
-        $response = new Response('Not Found', Response::HTTP_NOT_FOUND);
+        $response = new Response('404 Page Not Found', Response::HTTP_NOT_FOUND);
+        $response->send();
     } catch (Exception $exception) {
         $response = new Response('An error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
+        echo $exception->getMessage();
+        $response->send();
     }
-
-    $response->send();
