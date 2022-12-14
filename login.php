@@ -2,6 +2,7 @@
     use App\Core\View;
 
     use App\Helpers\FlashMessage;
+    use Symfony\Component\HttpFoundation\Response;
 
     require_once 'bootstrap.php';
     require_once 'vendor/autoload.php';
@@ -11,4 +12,7 @@
     $errors = FlashMessage::get('login_errors');
     $info = FlashMessage::get('username');
 
-    echo View::render('login', 'default', compact('errors', 'info', 'title'));
+    $content = View::render('login', 'default', compact('errors', 'info', 'title'));
+    $response = new Response($content);
+    $response->setStatusCode(Response::HTTP_OK);
+    $response->send();

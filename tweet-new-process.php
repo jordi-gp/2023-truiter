@@ -70,7 +70,7 @@
 
             unset($_SESSION["newTweet"]);
 
-            $redirectResponse = new RedirectResponse('tweet-new.php');
+            $redirectResponse = new RedirectResponse('tweet-new');
         } else {
             # Afegiment d'un nou tweet
             $user_info = $_SESSION["user"];
@@ -103,10 +103,10 @@
                 }
             }
             unset($_SESSION["errors"]);
-            $redirectResponse = new RedirectResponse('index.php');
+            $redirectResponse = new RedirectResponse('/');
         }
         $redirectResponse->send();
     } else {
-        header("Location: tweet-new.php");
-        exit();
+        $redirectResponse = new RedirectResponse('tweet-new');
+        $redirectResponse->send();
     }

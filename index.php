@@ -1,17 +1,5 @@
 <?php
-    require_once 'bootstrap.php';
 
-    use App\Core\View;
-
-    use App\Registry;
-
-    use App\Helpers\FlashMessage;
-
-    use App\Services\UserRepository;
-    use App\Services\TweetRepository;
-
-    use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     # Obtenció de valors passats per $_POST
     # $request->request('valor', 'valor per defecte');
