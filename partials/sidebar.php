@@ -7,7 +7,7 @@
     <ul class="nav flex-column">
         <li class="nav-item"><a class="nav-link" href="/"><i class="bi bi-house-heart-fill"></i>
                 Inici</a></li>
-        <li class="nav-item"><a class="nav-link" href="explore.php"><i class="bi bi-hash"></i>Explorar</a>
+        <li class="nav-item"><a class="nav-link" href="explore"><i class="bi bi-hash"></i>Explorar</a>
         </li>
         <?php if (!empty($_SESSION["user"])) : ?>
             <li class="nav-item"><a class="nav-link" href="tweet-new"><i class="bi bi-pencil-square"></i> Nou tweet</a>

@@ -25,7 +25,7 @@
 
         $controller = $controllerResolver->getController($request);
         #var_dump($request);
-        var_dump($controller);
+        #var_dump($controller);
         $arguments = $argumentResolver->getArguments($request, $controller);
         #var_dump($arguments);
 

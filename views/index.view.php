@@ -32,7 +32,7 @@
         <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
              data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
-                <form class="d-flex" method="post" action="find-tweet.php">
+                <form class="d-flex" method="post" action="find-tweets">
                     <input class="form-control me-2" name="tuit_search" type="search"
                            placeholder="Buscar Tweet..." aria-label="Search">
                     <button class="btn btn-outline-primary" type="submit">Buscar</button>
