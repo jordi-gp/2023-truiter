@@ -1,11 +1,12 @@
 <?php
     require_once __DIR__ . '/../bootstrap.php';
 
+    use Symfony\Component\HttpKernel\Controller\ArgumentResolver;
+    use Symfony\Component\HttpKernel\Controller\ControllerResolver;
     use Symfony\Component\Routing;
 
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\HttpFoundation\RedirectResponse;
 
     $request = Request::createFromGlobals();
 
@@ -16,14 +17,26 @@
 
     $matcher = new Routing\Matcher\UrlMatcher($routes, $context);
 
+    $controllerResolver = new ControllerResolver();
+    $argumentResolver = new ArgumentResolver();
+
     try {
-        extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
-        include sprintf(__DIR__ . '/../%s.php', $_route);
+        $request->attributes->add($matcher->match($request->getPathInfo()));
+
+        $controller = $controllerResolver->getController($request);
+        #var_dump($request);
+        var_dump($controller);
+        $arguments = $argumentResolver->getArguments($request, $controller);
+        #var_dump($arguments);
+
+        $response = call_user_func_array($controller, $arguments);
+        #var_dump($response);
     } catch (Routing\Exception\ResourceNotFoundException $exception) {
         $response = new Response('404 Page Not Found', Response::HTTP_NOT_FOUND);
-        $response->send();
+        #$response->send();
     } catch (Exception $exception) {
         $response = new Response('An error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
         echo $exception->getMessage();
-        $response->send();
+        #$response->send();
     }
+    $response->send();
