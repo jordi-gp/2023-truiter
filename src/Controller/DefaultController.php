@@ -5,7 +5,6 @@
 
     use App\Core\View;
 
-    use App\Helpers\Exceptions\InvalidArgumentException;
     use App\Helpers\Exceptions\NoUploadedFileException;
     use App\Helpers\Exceptions\UploadedFileException;
     use App\Helpers\UploadedFileHandler;
@@ -22,6 +21,7 @@
     use App\User;
     use DateTime;
     use Exception;
+    use InvalidArgumentException;
     use PDOException;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
@@ -290,7 +290,7 @@
 
                 unset($_SESSION["newTweet"]);
 
-                return new RedirectResponse('tweet-new');
+                return new RedirectResponse('/tweet/new');
             } else {
                 # Afegiment d'un nou tweet
                 $user_info = $_SESSION["user"];
@@ -330,6 +330,7 @@
 
         public function find_tweets(Request $request):Response
         {
+            $title = "Tuits Trobats";
             # Requeriment dels serveis necessàris
             try {
                 $tweetRepository = Registry::get(TweetRepository::class);
@@ -337,12 +338,12 @@
                 die($err->getLine()." ".$err->getMessage());
             }
 
-            $query_search = $request->get('tuit_search', '');
+            $query_search = $request->get('query', '');
             $search_errors = [];
 
             try {
-                Validator::lengthBetween($query_search, 2, 100, "Nom o contrasenya incorrectes");
-            } catch (\App\Helpers\Exceptions\InvalidArgumentException $err) {
+                Validator::lengthBetween($query_search, 2, 100);
+            } catch (InvalidArgumentException $err) {
                 $search_errors[] = $err->getMessage();
             }
 
@@ -351,7 +352,11 @@
 
                 unset($_SESSION["search_errors"]);
 
-                $content = View::render('found-tweets', 'default', compact('found_tweets'));
+                $content = View::render('found-tweets', 'default', compact('found_tweets', 'title'));
+
+                $response = new Response($content);
+                $response->setStatusCode(Response::HTTP_OK);
+
                 return new Response($content);
             } else {
                 FlashMessage::set('search_errors', $search_errors);

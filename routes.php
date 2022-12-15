@@ -44,35 +44,31 @@
 
     # Afegiment de tweets
     $routes->add('tweet-new', new Routing\Route(
-        path: '/tweet-new',
+        path: '/tweet/new',
         defaults: ['_controller'=>'App\Controller\DefaultController::tweet_new'],
         methods: ['GET']
     ));
 
     $routes->add('tweet-new-process', new Routing\Route(
-        path: '/tweet-new-process',
+        path: '/tweet/new/process',
         defaults: ['_controller'=>'App\Controller\DefaultController::tweet_new_process'],
         methods: ['POST']
     ));
 
-    #Explorador per categories
+    # Explorador per categories
     $routes->add('explore', new Routing\Route(
         path: '/explore',
         defaults: ['_controller'=>'App\Controller\DefaultController::explore'],
         methods: ['POST', 'GET']
     ));
 
-    # Buscador de Tweets per contingut
-    $routes->add('find-tweets', new Routing\Route(
-        path: '/find-tweets',
+    # Buscar tweet per contingut
+    $routes->add('found-tweets', new Routing\Route(
+        path: '/tweets/search',
         defaults: ['_controller'=>'App\Controller\DefaultController::find_tweets'],
-        methods: ['POST']
+        methods: ['GET']
     ));
 
-    /*$routes->add('found-tweets', new Routing\Route(
-        path: '/found-tweets',
-        defaults: ['_controller'=>'App\Controller\DefaultController::found_tweets'],
-        methods: ['GET']
-    ));*/
+    # TODO: Programar perfil, d'usuari amb les seves funcions
 
     return $routes;

@@ -1,7 +1,7 @@
 <?php
     namespace App\Helpers;
 
-    use App\Helpers\Exceptions\InvalidArgumentException;
+    use InvalidArgumentException;
 
     class Validator
     {
@@ -10,10 +10,25 @@
          */
         public static function lengthBetween(string $value, int $min, int $max, string $message=""):bool
         {
-            if(strlen($value) <= $min) {
-                throw new InvalidArgumentException("Els camps han de contindre almenys ".$min." caracters");
+            if(strlen($value) < $min) {
+                $defaultMessage = "Els camps han de contindre almenys ".$min." caracters";
+                $errorMessage = "";
+                if(!empty($message)) {
+                    $errorMessage = $message;
+                } else {
+                    $errorMessage = $defaultMessage;
+                }
+
+                throw new InvalidArgumentException($errorMessage);
             } else if(strlen($value) >= $max) {
-                throw new InvalidArgumentException("Els camps no pot contindre més de ".$max." caracters");
+                $defaultMessage = "Els camps no pot contindre més de ".$max." caracters";
+                $errorMessage = "";
+                if(!empty($message)) {
+                    $errorMessage = $message;
+                } else {
+                    $errorMessage = $defaultMessage;
+                }
+                throw new InvalidArgumentException($errorMessage);
             }
             return true;
         }
