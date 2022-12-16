@@ -14,33 +14,33 @@
     # Formulari d'inici de sessió
     $routes->add('login', new Routing\Route(
         path: '/login',
-        defaults: ['_controller'=> NAME_SPACE . 'DefaultController::login'],
+        defaults: ['_controller'=> NAME_SPACE . 'SessionController::login'],
         methods: ['GET']
     ));
 
     $routes->add('login-process', new Routing\Route(
         path: '/login-process',
-        defaults: ['_controller'=> NAME_SPACE . 'DefaultController::login_process'],
+        defaults: ['_controller'=> NAME_SPACE . 'SessionController::login_process'],
         methods: ['POST']
     ));
 
     # Formulari de registre
     $routes->add('register', new Routing\Route(
         path: '/register',
-        defaults: ['_controller'=> NAME_SPACE . 'DefaultController::register'],
+        defaults: ['_controller'=> NAME_SPACE . 'SessionController::register'],
         methods: ['GET']
     ));
 
     $routes->add('register-process', new Routing\Route(
         path: '/register-process',
-        defaults: ['_controller'=> NAME_SPACE . 'DefaultController::register_process'],
+        defaults: ['_controller'=> NAME_SPACE . 'SessionController::register_process'],
         methods: ['POST']
     ));
 
     # Tancament de sessió
     $routes->add('logout', new Routing\Route(
        path: '/logout',
-       defaults: ['_controller'=> NAME_SPACE . 'DefaultController::logout'],
+       defaults: ['_controller'=> NAME_SPACE . 'SessionController::logout'],
        methods: ['GET']
     ));
 
