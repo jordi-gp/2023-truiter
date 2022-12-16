@@ -72,5 +72,34 @@
     ));
 
     # TODO: Programar perfil, d'usuari amb les seves funcions
+    $routes->add('profile', new Routing\Route(
+        path: '/profile',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::profile'],
+        methods: ['GET']
+    ));
+
+    $routes->add('edit-name', new Routing\Route(
+        path: '/profile/edit-name',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::edit_name'],
+        methods: ['POST', 'GET']
+    ));
+
+    $routes->add('confirm-update-name', new Routing\Route(
+        path: '/profile/confirm-update-name',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::confirm_update_name'],
+        methods: ['POST']
+    ));
+
+    $routes->add('edit-username', new Routing\Route(
+        path: '/profile/edit-username',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::edit_username'],
+        methods: ['POST', 'GET']
+    ));
+
+    $routes->add('confirm_update_username', new Routing\Route(
+        path: '/profile/confirm-update-username',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::confirm_update_username'],
+        methods: ['POST']
+    ));
 
     return $routes;
