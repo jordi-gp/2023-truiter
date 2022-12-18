@@ -33,10 +33,8 @@
         #var_dump($response);
     } catch (Routing\Exception\ResourceNotFoundException $exception) {
         $response = new Response('404 Page Not Found', Response::HTTP_NOT_FOUND);
-        #$response->send();
     } catch (Exception $exception) {
         $response = new Response('An error occurred', Response::HTTP_INTERNAL_SERVER_ERROR);
         echo $exception->getMessage();
-        #$response->send();
     }
     $response->send();

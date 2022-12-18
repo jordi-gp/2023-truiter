@@ -30,7 +30,7 @@
 
         public function selectMedia(int $userId):array
         {
-            $stmt = $this->db->run("SELECT * FROM tweet t INNER JOIN media m ON t.id=m.tuit_id WHERE user_id=:user_id",
+            $stmt = $this->db->run("SELECT * FROM tweet t INNER JOIN media m ON t.id=m.tweet_id WHERE user_id=:user_id",
                                 ["user_id"=>$userId]);
 
             $media = [];

@@ -6,6 +6,8 @@
     use App\Helpers\FlashMessage;
     use App\Helpers\Validator;
     use App\Registry;
+    use App\Services\PhotoRepository;
+    use App\Services\TweetRepository;
     use App\Services\UserRepository;
     use Exception;
     use InvalidArgumentException;
@@ -18,8 +20,7 @@
         public function profile(Request $request):Response
         {
             if(!isset($_SESSION["logged"])) {
-                header("Location: index.php");
-                exit();
+                return new RedirectResponse('/');
             } else {
                 $user = $_SESSION["user"];
                 $name = $user["name"];
@@ -33,8 +34,7 @@
         public function edit_name(Request $request):Response
         {
             if(!isset($_SESSION["logged"])) {
-                header("Location: index.php");
-                exit();
+                return new RedirectResponse('/');
             } else {
                 # Informació de l'usuari
                 $userInfo = $_SESSION["user"];
@@ -119,7 +119,6 @@
             $user_inf = $_SESSION["user"];
             $errors = [];
             $actual_name = $_SESSION["user"]["username"];
-            $new_username = "";
             $new_username = $request->get('new_username');
 
             try {
@@ -138,7 +137,6 @@
             }
 
             if(empty($errors)) {
-                var_dump($user_inf);
                 $userRepository->updateUsername($user_inf["id"], $validated_username);
 
                 $_SESSION["user"]["username"] = $validated_username;
@@ -154,5 +152,51 @@
                 FlashMessage::set('update_username_errors', $errors);
                 return new RedirectResponse('edit-username');
             }
+        }
+
+        public function delete_user(Request $request):Response
+        {
+            if(!isset($_SESSION["logged"])) {
+                return new RedirectResponse('/');
+            } else {
+                $content = View::render('delete-user', 'default');
+                return new Response($content);
+            }
+        }
+
+        public function confirm_delete_user(Request $request):Response
+        {
+            $decision = $request->get('decision');
+
+            if($decision === 'delete') {
+                $userInf = $_SESSION["user"];
+                try {
+                    $tweet_repository = Registry::get(TweetRepository::class);
+                    $user_repository = Registry::get(UserRepository::class);
+                    $photo_repository = Registry::get(PhotoRepository::class);
+                } catch (Exception $err) {
+                    die($err->getLine() . " " . $err->getMessage());
+                }
+
+                # Obtenció dels tuits amb imatge de l'usuari
+                $tweetMedia = $photo_repository->selectMedia($userInf["id"]);
+
+
+                $photo_repository->deleteMedia($tweetMedia["tuit_id"]);
+
+                # Eliminació dels tuits de l'usuari
+                $tweet_repository->deleteTweetsFromUser($userInf["id"]);
+
+                # Eliminació de l'usuari de la bbdd
+                $user_repository->deleteUserById($userInf["id"]);
+
+                # Missatge flash de confirmació per a l'usuari
+                $flash_message = "L'usuari s'ha eliminat de forma correcta!";
+                FlashMessage::set('confirm_message', $flash_message);
+
+                session_unset();
+                session_destroy();
+            }
+            #return new RedirectResponse('/');
         }
     }

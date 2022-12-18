@@ -8,6 +8,7 @@
     use App\Helpers\FlashMessage;
     use App\Helpers\UploadedFileHandler;
     use App\Helpers\Validator;
+    use App\Photo;
     use App\Registry;
     use App\Services\PhotoRepository;
     use App\Services\TweetRepository;
@@ -22,6 +23,7 @@
     use Symfony\Component\HttpFoundation\Response;
 
     const MAX_SIZE = 1024 * 1024 * 3;
+    const UPLOAD_PATH = __DIR__ . "/../../public/uploads";
 
     class TweetController
     {
@@ -76,7 +78,7 @@
             if(!empty($_FILES)) {
                 try {
                     $handle_image = new UploadedFileHandler($_FILES["tuitFile"], $validFormat, MAX_SIZE);
-                    var_dump($handle_image->handle($imgDir));
+                    $newFilename = $handle_image->handle(UPLOAD_PATH);
                 } catch (NoUploadedFileException $e) {
                 } catch (UploadedFileException $e){
                     $errors[] = $e->getMessage();
@@ -105,26 +107,20 @@
 
                 $tweetRepository->save($newTweet);
 
-                # Imatge del tuit
-                // TODO:
-                /*if($_FILES["tuitFile"]["error"] === UPLOAD_ERR_OK) {
-                    $tuitId = $pdo->lastInsertId();
-
-                    //Tamany de l'imatge
-                    $size = getimagesize($handle_image->handle($imgDir));
-                    var_dump($size);
-                    $width = $size[0];
-                    $height = $size[0];
-                    if($imageValid) {
-                        $stmt = $pdo->prepare("INSERT INTO media (alt_text, height, width, url, tuit_id) VALUES (:alt_text, :height, :width, :url, :tuit_id)");
-                        $stmt->bindValue(':alt_text', "imatge_tuit");
-                        $stmt->bindValue(':height', $height);
-                        $stmt->bindValue(':width', $width);
-                        $stmt->bindValue(':url', $rutaImg);
-                        $stmt->bindValue(':tuit_id', $tuitId);
-                        $stmt->execute();
+                if (!empty($newFilename)) {
+                    try {
+                        list($width, $height) = getimagesize(UPLOAD_PATH . "/" . $newFilename);
+                        $photo = new Photo($newFilename, $width, $height, $newFilename);
+                        $photo->setUrl($newFilename);
+                        $photo->setTweet($newTweet);
+                        $photo->setAltText('Tuit image');
+                        $newTweet->addAttachment($photo);
+                        $photoRepository->save($photo);
+                    } catch (Exception $e) {
+                        $errors[] = $e->getMessage();
                     }
-                }*/
+                }
+
                 unset($_SESSION["errors"]);
                 return new RedirectResponse('/');
             }

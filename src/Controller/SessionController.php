@@ -125,7 +125,7 @@
             # Contrassenya repetida
             $repeated_password = $request->get('repeated_password', '');
             try {
-                Validator::lengthBetween($_POST["repeated_password"], 2, 100, "Nom o contrasenya incorrectes");
+                Validator::lengthBetween($repeated_password, 2, 100, "Nom o contrasenya incorrectes");
             } catch (InvalidArgumentException $err) {
                 $register_errors[] = $err->getMessage();
             }

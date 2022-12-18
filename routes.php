@@ -71,7 +71,7 @@
         methods: ['GET']
     ));
 
-    # TODO: Programar perfil, d'usuari amb les seves funcions
+    # Apartat del perfil d'usuari
     $routes->add('profile', new Routing\Route(
         path: '/profile',
         defaults: ['_controller'=> NAME_SPACE . 'UserController::profile'],
@@ -99,6 +99,18 @@
     $routes->add('confirm_update_username', new Routing\Route(
         path: '/profile/confirm-update-username',
         defaults: ['_controller'=> NAME_SPACE . 'UserController::confirm_update_username'],
+        methods: ['POST']
+    ));
+
+    $routes->add('delete_user', new Routing\Route(
+        path: '/profile/delete-user',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::delete_user'],
+        methods: ['POST']
+    ));
+
+    $routes->add('confirm_delete_user', new Routing\Route(
+        path: '/profile/confirm-delete-user',
+        defaults: ['_controller'=> NAME_SPACE . 'UserController::confirm_delete_user'],
         methods: ['POST']
     ));
 

@@ -2,7 +2,7 @@
 <p>Estas segur de voler eliminar el teu usuari, si ho fas eliminaràs els tuits del compter registrat!</p>
 <p>Presiona el botó per confirmar l'eliminació.</p>
 
-<form method="post" action="confirm-delete.php">
+<form method="post" action="/profile/confirm-delete-user">
     <button type="submit" class="btn btn-primary" name="decision" value="cancel">Cancelar</button>
     <button type="submit" class="btn btn-danger" name="decision" value="delete">Eliminar</button>
 </form>
