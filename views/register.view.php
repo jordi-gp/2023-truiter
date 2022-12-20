@@ -6,6 +6,9 @@
     <!--Nom d'usuari-->
     <label for="username" class="form-label"">Usuari</label>
     <input id="usuario" class="form-control" <?php if(!empty($info_form["username"])):?>value="<?=$info_form["username"]?>"<?php endif;?> name="username" >
+    <div class="invalid-feedback">
+        Nom d'usuari registrat
+    </div>
     <!--Contrasenya-->
     <label for="password" class="form-label">Contrasenya</label>
     <input id="password" type="password" class="form-control mb-2" <?php if(!empty($info_form["password"])):?>value="<?=$info_form["password"]?>"<?php endif;?> name="password">

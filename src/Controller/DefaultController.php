@@ -72,9 +72,10 @@
                 $userRepository = Registry::get(UserRepository::class);
                 $users = $userRepository->findByUsername($query);
 
-                if(!empty($users)) {
+                if(!is_bool($users)) {
                     return new JsonResponse(['resultat'=>'ok']);
                 }
+                return new JsonResponse(['resultat'=>'ko']);
             }
             return new JsonResponse(['resultat'=>'ko']);
         }

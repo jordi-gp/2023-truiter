@@ -8,22 +8,24 @@ function cridaApi()
 {
     let usuario = document.getElementById('usuario');
 
-    console.log('funciona');
-    console.log(usuario);
     usuario.onchange = function () {
-        console.log(usuario.value);
+        let apiUrl = '/api/v1/users/search?query=';
+        let query = usuario.value;
 
-        fetch('/api/v1/users/search?query='+usuario.value,{
+        fetch(apiUrl+query,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
         .then((response) => response.json())
-        .then(function(data){
-            console.log(data);
+        .then(data => {
+            if(data.resultat === 'ok')
+            {
+                usuario.setAttribute('class', 'form-control is-invalid');
+            } else {
+                usuario.setAttribute('class', 'form-control is-valid');
+            }
         })
-
-
     }
 }
