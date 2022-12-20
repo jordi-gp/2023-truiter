@@ -17,6 +17,7 @@
     use Exception;
     use InvalidArgumentException;
     use PDOException;
+    use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -25,6 +26,19 @@
     {
         public function index(Request $request):Response
         {
+            /*$user = [
+                "name" => "Jacinto",
+                "username" => "jacinto",
+                "email" => "jacinto@gmail.com"
+            ];
+
+            $response = new Response();
+            $response->setContent(json_encode([
+                'user' => $user
+            ]));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;*/
+
             $title = "Truiter una grollera cópia de Twitter";
 
             $tweetRepository = Registry::get(TweetRepository::class);
@@ -48,5 +62,20 @@
         {
             $content = View::render('explore', 'default');
             return new Response($content);
+        }
+
+        public function api_search(Request $request):Response
+        {
+            $query = $request->get('query');
+            
+            if(!is_null($query)){
+                $userRepository = Registry::get(UserRepository::class);
+                $users = $userRepository->findByUsername($query);
+
+                if(!empty($users)) {
+                    return new JsonResponse(['resultat'=>'ok']);
+                }
+            }
+            return new JsonResponse(['resultat'=>'ko']);
         }
     }

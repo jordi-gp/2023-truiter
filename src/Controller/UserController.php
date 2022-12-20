@@ -197,6 +197,6 @@
                 session_unset();
                 session_destroy();
             }
-            #return new RedirectResponse('/');
+            return new RedirectResponse('/');
         }
     }
