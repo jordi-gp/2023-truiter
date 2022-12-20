@@ -26,19 +26,6 @@
     {
         public function index(Request $request):Response
         {
-            /*$user = [
-                "name" => "Jacinto",
-                "username" => "jacinto",
-                "email" => "jacinto@gmail.com"
-            ];
-
-            $response = new Response();
-            $response->setContent(json_encode([
-                'user' => $user
-            ]));
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;*/
-
             $title = "Truiter una grollera cópia de Twitter";
 
             $tweetRepository = Registry::get(TweetRepository::class);
@@ -64,6 +51,7 @@
             return new Response($content);
         }
 
+        # Funció per utilitzar l'api
         public function api_search(Request $request):Response
         {
             $query = $request->get('query');
