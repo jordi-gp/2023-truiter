@@ -30,7 +30,6 @@
             $title = "Truiter una grollera cópia de Twitter";
 
             $dateFormat = new TwitterDateFormat();
-            $dateFormat->format();
 
             $tweetRepository = Registry::get(TweetRepository::class);
             $userRepository = Registry::get(UserRepository::class);
@@ -39,15 +38,6 @@
 
             $numOfTweets = count($tweets);
             $numOfUsers = count($users);
-
-            # Formatat de la data
-            $data = date('h:m:s');
-
-            for($i=0; $i<$numOfTweets; $i++) {
-                $tweetDate = $tweets[$i]->getCreatedAt()->format('h:m:s');
-
-                var_dump(strtotime($data.'-'.$tweetDate));
-            }
 
             $info = FlashMessage::get('info');
             $logout_message = FlashMessage::get('message');
