@@ -9,8 +9,11 @@ function cridaApi()
     let usuario = document.getElementById('usuario');
 
     usuario.onchange = function () {
-        let apiUrl = '/api/v1/users/search?query=';
         let query = usuario.value;
+        let apiUrl = '/api/v1/users/search?query=';
+        
+        let errMsg = '';
+        let errField = document.getElementById('error-message');
 
         fetch(apiUrl+query,{
             method: 'GET',
@@ -20,11 +23,20 @@ function cridaApi()
         })
         .then((response) => response.json())
         .then(data => {
-            if(data.resultat === 'ok')
-            {
+            if(query === ''){
                 usuario.setAttribute('class', 'form-control is-invalid');
+                errMsg = "No es pot deixar el camp en blanc";
+                let err = document.createTextNode(errMsg);
+                errField.replaceChildren(err);
             } else {
-                usuario.setAttribute('class', 'form-control is-valid');
+                if(data.resultat === 'ok') {
+                    usuario.setAttribute('class', 'form-control is-invalid');
+                    errMsg = "Nom d'usuari registrat";
+                    let err = document.createTextNode(errMsg);
+                    errField.replaceChildren(err);
+                } else {
+                    usuario.setAttribute('class', 'form-control is-valid');
+                }
             }
         })
     }

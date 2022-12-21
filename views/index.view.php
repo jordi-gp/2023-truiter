@@ -76,7 +76,7 @@
 <?php foreach ($tweets as $tweet) : ?>
     <div class="accordion-body">
         <p><?= $tweet->getAuthor()->getName(); ?> (@<?= $tweet->getAuthor()->getUsername(); ?>) - Creation
-            date: <?= $tweet->getCreatedAt()->format("Y-m-d"); ?></p>
+            date: <?= $dateFormat->format($tweet->getCreatedAt()) #3$tweet->getCreatedAt()->format("Y-m-d"); ?></p>
         <blockquote><?= $tweet->getText(); ?></blockquote>
         <p>Like counter: <?= $tweet->getLikeCount(); ?></p>
         <?php if (count($tweet->getAttachments()) > 0): ?>

@@ -9,6 +9,7 @@
     use App\Helpers\FlashMessage;
 
     use App\Services\PhotoRepository;
+    use App\Services\TwitterDateFormat;
     use App\Services\UserRepository;
     use App\Services\TweetRepository;
 
@@ -28,6 +29,9 @@
         {
             $title = "Truiter una grollera cópia de Twitter";
 
+            $dateFormat = new TwitterDateFormat();
+            $dateFormat->format();
+
             $tweetRepository = Registry::get(TweetRepository::class);
             $userRepository = Registry::get(UserRepository::class);
             $tweets = $tweetRepository->findAll();
@@ -36,12 +40,21 @@
             $numOfTweets = count($tweets);
             $numOfUsers = count($users);
 
+            # Formatat de la data
+            $data = date('h:m:s');
+
+            for($i=0; $i<$numOfTweets; $i++) {
+                $tweetDate = $tweets[$i]->getCreatedAt()->format('h:m:s');
+
+                var_dump(strtotime($data.'-'.$tweetDate));
+            }
+
             $info = FlashMessage::get('info');
             $logout_message = FlashMessage::get('message');
             $confirm_message = FlashMessage::get('confirm_message');
             $search_errors = FlashMessage::get('search_errors');
 
-            $content = View::render('index', 'default', compact('tweets', 'users', 'numOfTweets', 'numOfUsers', 'info', 'logout_message', 'confirm_message', 'search_errors', 'title'));
+            $content = View::render('index', 'default', compact('dateFormat','tweets', 'users', 'numOfTweets', 'numOfUsers', 'info', 'logout_message', 'confirm_message', 'search_errors', 'title'));
             return new Response($content);
         }
 

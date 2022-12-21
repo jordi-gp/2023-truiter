@@ -7,7 +7,7 @@
     <label for="username" class="form-label"">Usuari</label>
     <input id="usuario" class="form-control" <?php if(!empty($info_form["username"])):?>value="<?=$info_form["username"]?>"<?php endif;?> name="username" >
     <div class="invalid-feedback">
-        Nom d'usuari registrat
+        <p id="error-message"></p>
     </div>
     <!--Contrasenya-->
     <label for="password" class="form-label">Contrasenya</label>
