@@ -6,28 +6,35 @@
 
     class TwitterDateFormat
     {
-        public function format(DateTime $date):string
+        public DateTime $currentDateTime;
+
+        public function __construct(DateTime $currentDateTime = new DateTime())
         {
-            $dateAct = new DateTime();
-            $actTimeStamp = $dateAct->getTimestamp();
-            $tweetTimeStamps = $date->getTimestamp();
+            $this->currentDateTime = $currentDateTime;
+        }
+
+        public function format(DateTime $tweetDate):string
+        {
+            $actTimeStamp = $this->currentDateTime->getTimestamp();
+            $tweetTimeStamps = $tweetDate->getTimestamp();
 
             $diff = $actTimeStamp-$tweetTimeStamps;
-            $temps = '';
+
+            if($diff <0)
+                throw new \Exception('No pot haver una data futura');
 
             # Segons
-            if($diff < 60) {
-                return floor($diff).' secs';
-            }
+            if($diff < 60)
+                return $diff." s";
 
             # Minuts
-            if($diff/60 < 60)
-                $temps =  floor($diff/60).' minuts';
+            if($diff < 60*60)
+                return floor($diff/60)." min";
 
-            # Hores
-            if($diff/60/24 < 24)
-                $temps = floor($diff/60/24).' hores';
+            #Hores
+            if($diff < 60*60*24)
+                return floor($diff/60/60)." h";
 
-            return $temps;
+            return $tweetDate->format('d-m-Y');
         }
     }
